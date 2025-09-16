@@ -1,10 +1,13 @@
 package com.sleeper.transform;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sleeper.transform.models.League;
+import com.sleeper.transform.sleeperModels.League;
+import com.sleeper.transform.sleeperModels.Roster;
+import com.sleeper.transform.sleeperModels.Player;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.List;
+import java.util.Map;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -14,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SleeperClientTests {
     
     @Test
-    void testGetLeagueData() throws Exception {
+    void testGetLeague() throws Exception {
         // Arrange
         String json = "{\n" +
             "  \"league_id\": \"123\",\n" +
@@ -36,18 +39,59 @@ public class SleeperClientTests {
         Mockito.when(mockClient.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class)))
             .thenReturn(mockResponse);
         
-        ObjectMapper mapper = new ObjectMapper();
-        
-        // Replace with your actual client class and constructor
-        SleeperClient client = new SleeperClient(mockClient, "12345");
+        SleeperClient client = new SleeperClient(mockClient);
         
         // Act
-        League league = client.getLeagueData();
+        League league = client.getLeague("123");
         
         // Assert
         assertEquals("123", league.getLeagueId());
         assertEquals("Test League", league.getName());
         assertEquals(12, league.getTotalRosters());
+    }
+    
+    @Test
+    void testGetRosters() throws Exception {
+        // Arrange
+        String json = "[{ \"roster_id\": 1, \"league_id\": \"123\", \"owner_id\": \"owner1\" }]";
+        HttpClient mockClient = Mockito.mock(HttpClient.class);
+        HttpResponse<String> mockResponse = Mockito.mock(HttpResponse.class);
+        Mockito.when(mockResponse.body()).thenReturn(json);
+        Mockito.when(mockClient.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class)))
+            .thenReturn(mockResponse);
+        
+        SleeperClient client = new SleeperClient(mockClient);
+        
+        // Act
+        List<Roster> rosters = client.getRosters("123");
+        
+        // Assert
+        assertEquals(1, rosters.get(0).getRosterId());
+        assertEquals("123", rosters.get(0).getLeagueId());
+        assertEquals("owner1", rosters.get(0).getOwnerId());
+    }
+    
+    @Test
+    void testGetPlayers() throws Exception {
+        // Arrange
+        String json = "{ \"1352\": { \"player_id\": \"1352\", \"first_name\": \"Robert\", \"last_name\": \"Woods\" }, \"6462\": { \"player_id\": \"6462\", \"first_name\": \"Ellis\", \"last_name\": \"Richardson\" } }";
+        HttpClient mockClient = Mockito.mock(HttpClient.class);
+        HttpResponse<String> mockResponse = Mockito.mock(HttpResponse.class);
+        Mockito.when(mockResponse.body()).thenReturn(json);
+        Mockito.when(mockClient.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class)))
+            .thenReturn(mockResponse);
+        
+        SleeperClient client = new SleeperClient(mockClient);
+        
+        // Act
+        Map<String, Player> players = client.getPlayers();
+        
+        // Assert
+        assertEquals(2, players.size());
+        assertEquals("Robert", players.get("1352").getFirstName());
+        assertEquals("Woods", players.get("1352").getLastName());
+        assertEquals("Ellis", players.get("6462").getFirstName());
+        assertEquals("Richardson", players.get("6462").getLastName());
     }
     
 }
