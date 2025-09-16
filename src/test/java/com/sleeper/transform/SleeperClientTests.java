@@ -3,6 +3,7 @@ package com.sleeper.transform;
 import com.sleeper.transform.models.sleeper.League;
 import com.sleeper.transform.models.sleeper.Roster;
 import com.sleeper.transform.models.sleeper.Player;
+import com.sleeper.transform.models.sleeper.State;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -12,9 +13,18 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SleeperClientTests {
+    
+    @Test
+    void testSuccessfulQueryFromSleeper() throws Exception {
+        assertDoesNotThrow(() -> {
+            SleeperClient sleeperClient = new SleeperClient(HttpClient.newHttpClient());
+            State state = sleeperClient.getState("nfl");
+        });
+    }
     
     @Test
     void testGetLeague() throws Exception {
@@ -84,7 +94,7 @@ public class SleeperClientTests {
         SleeperClient client = new SleeperClient(mockClient);
         
         // Act
-        Map<String, Player> players = client.getPlayers();
+        Map<String, Player> players = client.getPlayers("nfl");
         
         // Assert
         assertEquals(2, players.size());

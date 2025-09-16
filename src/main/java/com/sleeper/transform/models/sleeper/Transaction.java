@@ -61,7 +61,7 @@ public class Transaction {
     private List<Integer> consenterIds;
     private List<Integer> rosterIds;
     private Long statusUpdated;
-    private WaiverBudget waiverBudget;
+    private List<WaiverBudget> waiverBudget;
     
     public String getStatus() {
         return status;
@@ -111,11 +111,11 @@ public class Transaction {
         this.leg = leg;
     }
     
-    public List<Object> getDraftPicks() {
+    public List<Pick> getDraftPicks() {
         return draftPicks;
     }
     
-    public void setDraftPicks(List<Object> draftPicks) {
+    public void setDraftPicks(List<Pick> draftPicks) {
         this.draftPicks = draftPicks;
     }
     
