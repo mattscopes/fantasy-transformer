@@ -12,7 +12,7 @@
 	<artifactId>transform</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>transform</name>
-	<description>transform sleeper API data into workable data</description>
+	<description>Transform sleeper API into workable data</description>
 	<url/>
 	<licenses>
 		<license/>

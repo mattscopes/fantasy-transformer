@@ -10,10 +10,9 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
 
-import static com.sleeper.transform.SleeperClient.mapper;
+import static com.sleeper.transform.SleeperClient.MAPPER;
 
 public class SleeperClientHelper {
-    
     
     public static HttpResponse<String> sendGetRequest(HttpClient client, String url) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
@@ -25,17 +24,17 @@ public class SleeperClientHelper {
     
     public static <T> T processGetRequest(HttpClient client, String url, Class<T> type) throws IOException, InterruptedException {
         HttpResponse<String> response = sendGetRequest(client, url);
-        return mapper.readValue(response.body(), type);
+        return MAPPER.readValue(response.body(), type);
     }
     
     public static <T> List<T> processGetRequestList(HttpClient client, String url, TypeReference<List<T>> typeRef) throws IOException, InterruptedException {
         HttpResponse<String> response = sendGetRequest(client, url);
-        return mapper.readValue(response.body(), typeRef);
+        return MAPPER.readValue(response.body(), typeRef);
     }
     
     public static <K, V> Map<K, V> processGetRequestMap(HttpClient client, String url, TypeReference<Map<K, V>> typeRef) throws IOException, InterruptedException {
         HttpResponse<String> response = sendGetRequest(client, url);
-        return mapper.readValue(response.body(), typeRef);
+        return MAPPER.readValue(response.body(), typeRef);
     }
     
 }

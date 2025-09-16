@@ -19,8 +19,16 @@ public class SleeperClient {
     
     private static final String BASE_URL = "https://api.sleeper.app/v1/";
     
-    public static final ObjectMapper mapper = new ObjectMapper()
+    public static final ObjectMapper MAPPER = new ObjectMapper()
         .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+    
+    private static final TypeReference<List<Roster>> ROSTER_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<User>> USER_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<Matchup>> MATCHUP_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<Bracket>> BRACKET_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<Transaction>> TRANSACTION_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<Pick>> PICK_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<Map<String, Player>> PLAYER_MAP_TYPE = new TypeReference<>() {};
     
     public SleeperClient(@NonNull HttpClient client) {
          this.client = client;
@@ -41,7 +49,7 @@ public class SleeperClient {
             .pathSegment("league", leagueId, "rosters")
             .build()
             .toUriString();
-        return SleeperClientHelper.processGetRequestList(client, url, new TypeReference<List<Roster>>() {});
+        return SleeperClientHelper.processGetRequestList(client, url, ROSTER_LIST_TYPE);
     }
     
     public List<User> getUsers(@NonNull String leagueId) throws IOException, InterruptedException {
@@ -49,7 +57,7 @@ public class SleeperClient {
             .pathSegment("league", leagueId, "users")
             .build()
             .toUriString();
-        return SleeperClientHelper.processGetRequestList(client, url, new TypeReference<List<User>>() {});
+        return SleeperClientHelper.processGetRequestList(client, url, USER_LIST_TYPE);
     }
     
     public List<Matchup> getMatchups(@NonNull String leagueId, @NonNull Integer week) throws IOException, InterruptedException {
@@ -57,7 +65,7 @@ public class SleeperClient {
             .pathSegment("league", leagueId, "matchups", week.toString())
             .build()
             .toUriString();
-        return SleeperClientHelper.processGetRequestList(client, url, new TypeReference<List<Matchup>>() {});
+        return SleeperClientHelper.processGetRequestList(client, url, MATCHUP_LIST_TYPE);
     }
     
     public List<Bracket> getPlayoffBracket(@NonNull String leagueId, @NonNull String bracketType) throws IOException, InterruptedException {
@@ -65,7 +73,7 @@ public class SleeperClient {
             .pathSegment("league", leagueId, bracketType)   // bracketType: "winners_bracket" or "losers_bracket"
             .build()
             .toUriString();
-        return SleeperClientHelper.processGetRequestList(client, url, new TypeReference<List<Bracket>>() {});
+        return SleeperClientHelper.processGetRequestList(client, url, BRACKET_LIST_TYPE);
     }
     
     public List<Transaction> getTransactions(@NonNull String leagueId, @NonNull Integer round) throws IOException, InterruptedException {
@@ -73,7 +81,7 @@ public class SleeperClient {
             .pathSegment("league", leagueId, "transactions", round.toString())
             .build()
             .toUriString();
-        return SleeperClientHelper.processGetRequestList(client, url, new TypeReference<List<Transaction>>() {});
+        return SleeperClientHelper.processGetRequestList(client, url, TRANSACTION_LIST_TYPE);
     }
     
     public List<Pick> getTradedPicks(@NonNull String leagueId) throws IOException, InterruptedException {
@@ -81,7 +89,7 @@ public class SleeperClient {
             .pathSegment("league", leagueId, "traded_picks")
             .build()
             .toUriString();
-        return SleeperClientHelper.processGetRequestList(client, url, new TypeReference<List<Pick>>() {});
+        return SleeperClientHelper.processGetRequestList(client, url, PICK_LIST_TYPE);
     }
     
     public State getState(@NonNull String sport) throws IOException, InterruptedException {
@@ -99,7 +107,7 @@ public class SleeperClient {
             .pathSegment("player", sport)
             .build()
             .toUriString();
-        return SleeperClientHelper.processGetRequestMap(client, url, new TypeReference<Map<String, Player>>() {});
+        return SleeperClientHelper.processGetRequestMap(client, url, PLAYER_MAP_TYPE);
     }
     
     public List<TrendingPlayer> getTrendingPlayers(@NonNull String sport, String type, Integer lookbackHours, Integer limit) throws IOException, InterruptedException {
