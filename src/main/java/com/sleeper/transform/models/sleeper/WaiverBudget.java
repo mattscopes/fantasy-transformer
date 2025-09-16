@@ -1,4 +1,4 @@
-package com.sleeper.transform.sleeperModels;
+package com.sleeper.transform.models.sleeper;
 
 public class WaiverBudget {
     

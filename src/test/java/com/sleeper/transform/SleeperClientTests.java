@@ -1,8 +1,8 @@
 package com.sleeper.transform;
 
-import com.sleeper.transform.sleeperModels.League;
-import com.sleeper.transform.sleeperModels.Roster;
-import com.sleeper.transform.sleeperModels.Player;
+import com.sleeper.transform.models.sleeper.League;
+import com.sleeper.transform.models.sleeper.Roster;
+import com.sleeper.transform.models.sleeper.Player;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

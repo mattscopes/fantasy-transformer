@@ -3,7 +3,7 @@ package com.sleeper.transform;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.sleeper.transform.sleeperModels.*;
+import com.sleeper.transform.models.sleeper.*;
 import org.springframework.lang.NonNull;
 import org.springframework.web.util.UriComponentsBuilder;
 

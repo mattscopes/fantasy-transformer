@@ -1,4 +1,4 @@
-package com.sleeper.transform.sleeperModels;
+package com.sleeper.transform.models.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
