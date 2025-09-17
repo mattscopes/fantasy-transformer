@@ -2,6 +2,7 @@ package com.sleeper.transform.models.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public class Transaction {
     private String status;
     private String type;
     private TransactionMetadata metadata;
-    private Long created;
+    private Instant created;
     private TransactionSettings settings;
     private Integer leg;
     private List<Pick> draftPicks;
@@ -60,7 +61,7 @@ public class Transaction {
     private Map<String, Integer> drops;
     private List<Integer> consenterIds;
     private List<Integer> rosterIds;
-    private Long statusUpdated;
+    private Instant statusUpdated;
     private List<WaiverBudget> waiverBudget;
     
     public String getStatus() {
@@ -87,11 +88,11 @@ public class Transaction {
         this.metadata = metadata;
     }
     
-    public Long getCreated() {
+    public Instant getCreated() {
         return created;
     }
     
-    public void setCreated(Long created) {
+    public void setCreated(Instant created) {
         this.created = created;
     }
     
@@ -167,11 +168,11 @@ public class Transaction {
         this.rosterIds = rosterIds;
     }
     
-    public Long getStatusUpdated() {
+    public Instant getStatusUpdated() {
         return statusUpdated;
     }
     
-    public void setStatusUpdated(Long statusUpdated) {
+    public void setStatusUpdated(Instant statusUpdated) {
         this.statusUpdated = statusUpdated;
     }
     

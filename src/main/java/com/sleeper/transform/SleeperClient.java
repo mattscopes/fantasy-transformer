@@ -20,6 +20,7 @@ public class SleeperClient {
     private static final String BASE_URL = "https://api.sleeper.app/v1/";
     
     public static final ObjectMapper MAPPER = new ObjectMapper()
+        .registerModule(new MillisFromEpochToInstantModule())
         .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
     
     private static final TypeReference<List<Roster>> ROSTER_LIST_TYPE = new TypeReference<>() {};

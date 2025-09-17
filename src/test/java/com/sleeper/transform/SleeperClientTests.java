@@ -7,6 +7,7 @@ import com.sleeper.transform.models.sleeper.State;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.net.http.HttpClient;
@@ -33,6 +34,7 @@ public class SleeperClientTests {
             "  \"league_id\": \"123\",\n" +
             "  \"name\": \"Test League\",\n" +
             "  \"total_rosters\": 12,\n" +
+            "  \"last_message_time\": 1726274930594,\n" +
             "  \"metadata\": {\n" +
             "    \"auto_continue\": \"on\",\n" +
             "    \"continued\": \"yes\",\n" +
@@ -57,6 +59,7 @@ public class SleeperClientTests {
         // Assert
         assertEquals("123", league.getLeagueId());
         assertEquals("Test League", league.getName());
+        assertEquals(Instant.parse("2024-09-14T00:48:50.594Z"), league.getLastMessageTime());
         assertEquals(12, league.getTotalRosters());
     }
     

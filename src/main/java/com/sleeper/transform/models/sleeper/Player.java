@@ -2,6 +2,7 @@ package com.sleeper.transform.models.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.Instant;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -47,7 +48,7 @@ public class Player {
     private String gsisId;
     private String birthState;
     private Integer depthChartOrder;
-    private Long teamChangedAt;
+    private Instant teamChangedAt;
     private Integer yahooId;
     private Integer number;
     private Integer age;
@@ -65,7 +66,7 @@ public class Player {
     private Integer fantasyDataId;
     private String optaId;
     private String status;
-    private Long newsUpdated;
+    private Instant newsUpdated;
     private String searchFirstName;
     private String sport;
     private String injuryNotes;
@@ -135,11 +136,11 @@ public class Player {
         this.depthChartOrder = depthChartOrder;
     }
     
-    public Long getTeamChangedAt() {
+    public Instant getTeamChangedAt() {
         return teamChangedAt;
     }
     
-    public void setTeamChangedAt(Long teamChangedAt) {
+    public void setTeamChangedAt(Instant teamChangedAt) {
         this.teamChangedAt = teamChangedAt;
     }
     
@@ -279,11 +280,11 @@ public class Player {
         this.status = status;
     }
     
-    public Long getNewsUpdated() {
+    public Instant getNewsUpdated() {
         return newsUpdated;
     }
     
-    public void setNewsUpdated(Long newsUpdated) {
+    public void setNewsUpdated(Instant newsUpdated) {
         this.newsUpdated = newsUpdated;
     }
     

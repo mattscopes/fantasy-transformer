@@ -2,6 +2,7 @@ package com.sleeper.transform.models.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.Instant;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -43,7 +44,7 @@ public class League {
     private Boolean lastAuthorIsBot;
     private String lastMessageAttachment;
     private String lastMessageTextMap;
-    private Long lastMessageTime;
+    private Instant lastMessageTime;
     private String lastPinnedMessageId;
     private String lastReadId;
     private String previousLeagueId;
@@ -215,11 +216,11 @@ public class League {
         this.lastMessageTextMap = lastMessageTextMap;
     }
     
-    public Long getLastMessageTime() {
+    public Instant getLastMessageTime() {
         return lastMessageTime;
     }
     
-    public void setLastMessageTime(Long lastMessageTime) {
+    public void setLastMessageTime(Instant lastMessageTime) {
         this.lastMessageTime = lastMessageTime;
     }
     
