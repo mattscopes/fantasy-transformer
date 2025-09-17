@@ -3,6 +3,8 @@ package com.sleeper.transform;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.sleeper.transform.helpers.MillisFromEpochToInstantModule;
+import com.sleeper.transform.helpers.SleeperClientHelper;
 import com.sleeper.transform.models.sleeper.*;
 import org.springframework.lang.NonNull;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -19,7 +21,7 @@ public class SleeperClient {
     
     private static final String BASE_URL = "https://api.sleeper.app/v1/";
     
-    public static final ObjectMapper MAPPER = new ObjectMapper()
+    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
         .registerModule(new MillisFromEpochToInstantModule())
         .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
     
@@ -30,6 +32,7 @@ public class SleeperClient {
     private static final TypeReference<List<Transaction>> TRANSACTION_LIST_TYPE = new TypeReference<>() {};
     private static final TypeReference<List<Pick>> PICK_LIST_TYPE = new TypeReference<>() {};
     private static final TypeReference<Map<String, Player>> PLAYER_MAP_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<TrendingPlayer>> TRENDING_PLAYER_LIST_TYPE = new TypeReference<>() {};
     
     public SleeperClient(@NonNull HttpClient client) {
          this.client = client;
@@ -119,7 +122,7 @@ public class SleeperClient {
             .queryParamIfPresent("limit", Optional.ofNullable(limit))
             .build()
             .toUriString();
-        return SleeperClientHelper.processGetRequestList(client, url, new TypeReference<List<TrendingPlayer>>() {});
+        return SleeperClientHelper.processGetRequestList(client, url, TRENDING_PLAYER_LIST_TYPE);
     }
     
 }

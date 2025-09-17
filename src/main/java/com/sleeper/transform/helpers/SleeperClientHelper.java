@@ -1,4 +1,4 @@
-package com.sleeper.transform;
+package com.sleeper.transform.helpers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
 
-import static com.sleeper.transform.SleeperClient.MAPPER;
+import static com.sleeper.transform.SleeperClient.OBJECT_MAPPER;
 
 public class SleeperClientHelper {
     
@@ -24,17 +24,17 @@ public class SleeperClientHelper {
     
     public static <T> T processGetRequest(HttpClient client, String url, Class<T> type) throws IOException, InterruptedException {
         HttpResponse<String> response = sendGetRequest(client, url);
-        return MAPPER.readValue(response.body(), type);
+        return OBJECT_MAPPER.readValue(response.body(), type);
     }
     
     public static <T> List<T> processGetRequestList(HttpClient client, String url, TypeReference<List<T>> typeRef) throws IOException, InterruptedException {
         HttpResponse<String> response = sendGetRequest(client, url);
-        return MAPPER.readValue(response.body(), typeRef);
+        return OBJECT_MAPPER.readValue(response.body(), typeRef);
     }
     
     public static <K, V> Map<K, V> processGetRequestMap(HttpClient client, String url, TypeReference<Map<K, V>> typeRef) throws IOException, InterruptedException {
         HttpResponse<String> response = sendGetRequest(client, url);
-        return MAPPER.readValue(response.body(), typeRef);
+        return OBJECT_MAPPER.readValue(response.body(), typeRef);
     }
     
 }
