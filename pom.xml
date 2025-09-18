@@ -8,11 +8,11 @@
 		<version>3.5.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.sleeper</groupId>
-	<artifactId>transform</artifactId>
+	<groupId>com.fantasy</groupId>
+	<artifactId>transformer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>transform</name>
-	<description>Transform sleeper API into workable data</description>
+	<name>transformer</name>
+	<description>Transforms fantasy sports API (currently only sleeper) into workable data</description>
 	<url/>
 	<licenses>
 		<license/>
