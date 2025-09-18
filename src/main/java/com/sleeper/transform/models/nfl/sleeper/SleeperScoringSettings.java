@@ -1,6 +1,6 @@
-package com.sleeper.transform.models.sleeper;
+package com.sleeper.transform.models.nfl.sleeper;
 
-public class ScoringSettings {
+public class SleeperScoringSettings {
     
     private Double sack;
     private Double fgm4049;

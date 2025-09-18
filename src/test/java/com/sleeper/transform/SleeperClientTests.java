@@ -1,9 +1,9 @@
 package com.sleeper.transform;
 
-import com.sleeper.transform.models.sleeper.League;
-import com.sleeper.transform.models.sleeper.Roster;
-import com.sleeper.transform.models.sleeper.Player;
-import com.sleeper.transform.models.sleeper.State;
+import com.sleeper.transform.models.nfl.sleeper.SleeperLeague;
+import com.sleeper.transform.models.nfl.sleeper.SleeperRoster;
+import com.sleeper.transform.models.nfl.sleeper.SleeperPlayer;
+import com.sleeper.transform.models.nfl.sleeper.SleeperState;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -23,7 +23,7 @@ public class SleeperClientTests {
     void testSuccessfulQueryFromSleeper() throws Exception {
         assertDoesNotThrow(() -> {
             SleeperClient sleeperClient = new SleeperClient(HttpClient.newHttpClient());
-            State state = sleeperClient.getState("nfl");
+            sleeperClient.getState("nfl");
         });
     }
     
@@ -54,13 +54,13 @@ public class SleeperClientTests {
         SleeperClient client = new SleeperClient(mockClient);
         
         // Act
-        League league = client.getLeague("123");
+        SleeperLeague sleeperLeague = client.getLeague("123");
         
         // Assert
-        assertEquals("123", league.getLeagueId());
-        assertEquals("Test League", league.getName());
-        assertEquals(Instant.parse("2024-09-14T00:48:50.594Z"), league.getLastMessageTime());
-        assertEquals(12, league.getTotalRosters());
+        assertEquals("123", sleeperLeague.getLeagueId());
+        assertEquals("Test League", sleeperLeague.getName());
+        assertEquals(Instant.parse("2024-09-14T00:48:50.594Z"), sleeperLeague.getLastMessageTime());
+        assertEquals(12, sleeperLeague.getTotalRosters());
     }
     
     @Test
@@ -76,12 +76,12 @@ public class SleeperClientTests {
         SleeperClient client = new SleeperClient(mockClient);
         
         // Act
-        List<Roster> rosters = client.getRosters("123");
+        List<SleeperRoster> sleeperRosters = client.getRosters("123");
         
         // Assert
-        assertEquals(1, rosters.get(0).getRosterId());
-        assertEquals("123", rosters.get(0).getLeagueId());
-        assertEquals("owner1", rosters.get(0).getOwnerId());
+        assertEquals(1, sleeperRosters.get(0).getRosterId());
+        assertEquals("123", sleeperRosters.get(0).getLeagueId());
+        assertEquals("owner1", sleeperRosters.get(0).getOwnerId());
     }
     
     @Test
@@ -97,14 +97,14 @@ public class SleeperClientTests {
         SleeperClient client = new SleeperClient(mockClient);
         
         // Act
-        Map<String, Player> players = client.getPlayers("nfl");
+        Map<String, SleeperPlayer> sleeperPlayersById = client.getPlayers("nfl");
         
         // Assert
-        assertEquals(2, players.size());
-        assertEquals("Robert", players.get("1352").getFirstName());
-        assertEquals("Woods", players.get("1352").getLastName());
-        assertEquals("Ellis", players.get("6462").getFirstName());
-        assertEquals("Richardson", players.get("6462").getLastName());
+        assertEquals(2, sleeperPlayersById.size());
+        assertEquals("Robert", sleeperPlayersById.get("1352").getFirstName());
+        assertEquals("Woods", sleeperPlayersById.get("1352").getLastName());
+        assertEquals("Ellis", sleeperPlayersById.get("6462").getFirstName());
+        assertEquals("Richardson", sleeperPlayersById.get("6462").getLastName());
     }
     
 }

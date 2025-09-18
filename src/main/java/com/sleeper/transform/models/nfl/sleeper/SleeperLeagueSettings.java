@@ -1,9 +1,9 @@
-package com.sleeper.transform.models.sleeper;
+package com.sleeper.transform.models.nfl.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LeagueSettings {
+public class SleeperLeagueSettings {
     
     private Integer bestBall;
     private Integer lastReport;

@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.sleeper.transform.helpers.MillisFromEpochToInstantModule;
 import com.sleeper.transform.helpers.SleeperClientHelper;
-import com.sleeper.transform.models.sleeper.*;
+import com.sleeper.transform.models.nfl.sleeper.*;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -25,14 +27,14 @@ public class SleeperClient {
         .registerModule(new MillisFromEpochToInstantModule())
         .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
     
-    private static final TypeReference<List<Roster>> ROSTER_LIST_TYPE = new TypeReference<>() {};
-    private static final TypeReference<List<User>> USER_LIST_TYPE = new TypeReference<>() {};
-    private static final TypeReference<List<Matchup>> MATCHUP_LIST_TYPE = new TypeReference<>() {};
-    private static final TypeReference<List<Bracket>> BRACKET_LIST_TYPE = new TypeReference<>() {};
-    private static final TypeReference<List<Transaction>> TRANSACTION_LIST_TYPE = new TypeReference<>() {};
-    private static final TypeReference<List<Pick>> PICK_LIST_TYPE = new TypeReference<>() {};
-    private static final TypeReference<Map<String, Player>> PLAYER_MAP_TYPE = new TypeReference<>() {};
-    private static final TypeReference<List<TrendingPlayer>> TRENDING_PLAYER_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<SleeperRoster>> ROSTER_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<SleeperUser>> USER_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<SleeperMatchup>> MATCHUP_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<SleeperBracket>> BRACKET_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<SleeperTransaction>> TRANSACTION_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<SleeperPick>> PICK_LIST_TYPE = new TypeReference<>() {};
+    private static final TypeReference<Map<String, SleeperPlayer>> PLAYER_MAP_TYPE = new TypeReference<>() {};
+    private static final TypeReference<List<SleeperTrendingPlayer>> TRENDING_PLAYER_LIST_TYPE = new TypeReference<>() {};
     
     public SleeperClient(@NonNull HttpClient client) {
          this.client = client;
@@ -40,15 +42,15 @@ public class SleeperClient {
     
     //League Section
     
-    public League getLeague(@NonNull String leagueId) throws IOException, InterruptedException {
+    public SleeperLeague getLeague(@NonNull String leagueId) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
             .pathSegment("league", leagueId)
             .build()
             .toUriString();
-        return SleeperClientHelper.processGetRequest(client, url, League.class);
+        return SleeperClientHelper.processGetRequest(client, url, SleeperLeague.class);
     }
     
-    public List<Roster> getRosters(@NonNull String leagueId) throws IOException, InterruptedException {
+    public List<SleeperRoster> getRosters(@NonNull String leagueId) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
             .pathSegment("league", leagueId, "rosters")
             .build()
@@ -56,7 +58,7 @@ public class SleeperClient {
         return SleeperClientHelper.processGetRequestList(client, url, ROSTER_LIST_TYPE);
     }
     
-    public List<User> getUsers(@NonNull String leagueId) throws IOException, InterruptedException {
+    public List<SleeperUser> getUsers(@NonNull String leagueId) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
             .pathSegment("league", leagueId, "users")
             .build()
@@ -64,7 +66,7 @@ public class SleeperClient {
         return SleeperClientHelper.processGetRequestList(client, url, USER_LIST_TYPE);
     }
     
-    public List<Matchup> getMatchups(@NonNull String leagueId, @NonNull Integer week) throws IOException, InterruptedException {
+    public List<SleeperMatchup> getMatchups(@NonNull String leagueId, @NonNull Integer week) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
             .pathSegment("league", leagueId, "matchups", week.toString())
             .build()
@@ -72,7 +74,7 @@ public class SleeperClient {
         return SleeperClientHelper.processGetRequestList(client, url, MATCHUP_LIST_TYPE);
     }
     
-    public List<Bracket> getPlayoffBracket(@NonNull String leagueId, @NonNull String bracketType) throws IOException, InterruptedException {
+    public List<SleeperBracket> getPlayoffBracket(@NonNull String leagueId, @NonNull String bracketType) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
             .pathSegment("league", leagueId, bracketType)   // bracketType: "winners_bracket" or "losers_bracket"
             .build()
@@ -80,7 +82,7 @@ public class SleeperClient {
         return SleeperClientHelper.processGetRequestList(client, url, BRACKET_LIST_TYPE);
     }
     
-    public List<Transaction> getTransactions(@NonNull String leagueId, @NonNull Integer round) throws IOException, InterruptedException {
+    public List<SleeperTransaction> getTransactions(@NonNull String leagueId, @NonNull Integer round) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
             .pathSegment("league", leagueId, "transactions", round.toString())
             .build()
@@ -88,7 +90,7 @@ public class SleeperClient {
         return SleeperClientHelper.processGetRequestList(client, url, TRANSACTION_LIST_TYPE);
     }
     
-    public List<Pick> getTradedPicks(@NonNull String leagueId) throws IOException, InterruptedException {
+    public List<SleeperPick> getTradedPicks(@NonNull String leagueId) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
             .pathSegment("league", leagueId, "traded_picks")
             .build()
@@ -96,25 +98,25 @@ public class SleeperClient {
         return SleeperClientHelper.processGetRequestList(client, url, PICK_LIST_TYPE);
     }
     
-    public State getState(@NonNull String sport) throws IOException, InterruptedException {
+    public SleeperState getState(@NonNull String sport) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
             .pathSegment("state", sport)
             .build()
             .toUriString();
-        return SleeperClientHelper.processGetRequest(client, url, State.class);
+        return SleeperClientHelper.processGetRequest(client, url, SleeperState.class);
     }
     
     //Players Section
-    
-    public Map<String, Player> getPlayers(@NonNull String sport) throws IOException, InterruptedException {
+
+    public Map<String, SleeperPlayer> getPlayers(@NonNull String sport) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
             .pathSegment("player", sport)
             .build()
             .toUriString();
         return SleeperClientHelper.processGetRequestMap(client, url, PLAYER_MAP_TYPE);
     }
-    
-    public List<TrendingPlayer> getTrendingPlayers(@NonNull String sport, String type, Integer lookbackHours, Integer limit) throws IOException, InterruptedException {
+
+    public List<SleeperTrendingPlayer> getTrendingPlayers(@NonNull String sport, String type, Integer lookbackHours, Integer limit) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
             .pathSegment("players", "trending", sport)
             .queryParamIfPresent("type", Optional.ofNullable(type))

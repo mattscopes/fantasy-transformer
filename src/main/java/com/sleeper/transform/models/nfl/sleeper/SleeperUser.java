@@ -1,9 +1,9 @@
-package com.sleeper.transform.models.sleeper;
+package com.sleeper.transform.models.nfl.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User {
+public class SleeperUser {
     
     /*{
         "user_id":"<user_id>",
@@ -21,7 +21,7 @@ public class User {
     private Boolean isBot;
     private Boolean isOwner;
     private String leagueId;
-    private UserMetadata metadata;
+    private SleeperUserMetadata metadata;
     private Object settings;
     private String userId;
     
@@ -65,11 +65,11 @@ public class User {
         this.leagueId = leagueId;
     }
     
-    public UserMetadata getMetadata() {
+    public SleeperUserMetadata getMetadata() {
         return metadata;
     }
     
-    public void setMetadata(UserMetadata metadata) {
+    public void setMetadata(SleeperUserMetadata metadata) {
         this.metadata = metadata;
     }
     

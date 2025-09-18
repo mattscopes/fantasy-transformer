@@ -1,4 +1,4 @@
-package com.sleeper.transform.models.sleeper;
+package com.sleeper.transform.models.nfl.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class League {
+public class SleeperLeague {
     
     /*{
         "total_rosters": 12,
@@ -26,11 +26,11 @@ public class League {
     
     private String name;
     private String status;
-    private LeagueMetadata metadata;
-    private LeagueSettings settings;
+    private SleeperLeagueMetadata metadata;
+    private SleeperLeagueSettings settings;
     private String avatar;
     private String companyId;
-    private ScoringSettings scoringSettings;
+    private SleeperScoringSettings scoringSettings;
     private String season;
     private String seasonType;
     private String sport;
@@ -72,19 +72,19 @@ public class League {
         this.status = status;
     }
     
-    public LeagueMetadata getMetadata() {
+    public SleeperLeagueMetadata getMetadata() {
         return metadata;
     }
     
-    public void setMetadata(LeagueMetadata metadata) {
+    public void setMetadata(SleeperLeagueMetadata metadata) {
         this.metadata = metadata;
     }
     
-    public LeagueSettings getSettings() {
+    public SleeperLeagueSettings getSettings() {
         return settings;
     }
     
-    public void setSettings(LeagueSettings settings) {
+    public void setSettings(SleeperLeagueSettings settings) {
         this.settings = settings;
     }
     
@@ -104,11 +104,11 @@ public class League {
         this.companyId = companyId;
     }
     
-    public ScoringSettings getScoringSettings() {
+    public SleeperScoringSettings getScoringSettings() {
         return scoringSettings;
     }
     
-    public void setScoringSettings(ScoringSettings scoringSettings) {
+    public void setScoringSettings(SleeperScoringSettings scoringSettings) {
         this.scoringSettings = scoringSettings;
     }
     

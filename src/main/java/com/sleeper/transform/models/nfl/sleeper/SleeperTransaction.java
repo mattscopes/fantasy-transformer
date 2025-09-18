@@ -1,4 +1,4 @@
-package com.sleeper.transform.models.sleeper;
+package com.sleeper.transform.models.nfl.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Transaction {
+public class SleeperTransaction {
     
     /*{
         "type":"trade",
@@ -50,11 +50,11 @@ public class Transaction {
     
     private String status;
     private String type;
-    private TransactionMetadata metadata;
+    private SleeperTransactionMetadata metadata;
     private Instant created;
-    private TransactionSettings settings;
+    private SleeperTransactionSettings settings;
     private Integer leg;
-    private List<Pick> draftPicks;
+    private List<SleeperPick> draftPicks;
     private String creator;
     private String transactionId;
     private Map<String, Integer> adds;
@@ -62,7 +62,7 @@ public class Transaction {
     private List<Integer> consenterIds;
     private List<Integer> rosterIds;
     private Instant statusUpdated;
-    private List<WaiverBudget> waiverBudget;
+    private List<SleeperWaiverBudget> waiverBudget;
     
     public String getStatus() {
         return status;
@@ -80,11 +80,11 @@ public class Transaction {
         this.type = type;
     }
     
-    public TransactionMetadata getMetadata() {
+    public SleeperTransactionMetadata getMetadata() {
         return metadata;
     }
     
-    public void setMetadata(TransactionMetadata metadata) {
+    public void setMetadata(SleeperTransactionMetadata metadata) {
         this.metadata = metadata;
     }
     
@@ -96,11 +96,11 @@ public class Transaction {
         this.created = created;
     }
     
-    public TransactionSettings getSettings() {
+    public SleeperTransactionSettings getSettings() {
         return settings;
     }
     
-    public void setSettings(TransactionSettings settings) {
+    public void setSettings(SleeperTransactionSettings settings) {
         this.settings = settings;
     }
     
@@ -112,11 +112,11 @@ public class Transaction {
         this.leg = leg;
     }
     
-    public List<Pick> getDraftPicks() {
+    public List<SleeperPick> getDraftPicks() {
         return draftPicks;
     }
     
-    public void setDraftPicks(List<Pick> draftPicks) {
+    public void setDraftPicks(List<SleeperPick> draftPicks) {
         this.draftPicks = draftPicks;
     }
     
@@ -176,11 +176,11 @@ public class Transaction {
         this.statusUpdated = statusUpdated;
     }
     
-    public List<WaiverBudget> getWaiverBudget() {
+    public List<SleeperWaiverBudget> getWaiverBudget() {
         return waiverBudget;
     }
     
-    public void setWaiverBudget(List<WaiverBudget> waiverBudget) {
+    public void setWaiverBudget(List<SleeperWaiverBudget> waiverBudget) {
         this.waiverBudget = waiverBudget;
     }
 }

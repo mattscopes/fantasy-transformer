@@ -1,4 +1,4 @@
-package com.sleeper.transform.models.sleeper;
+package com.sleeper.transform.models.nfl.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Matchup {
+public class SleeperMatchup {
     
     /*{
         "starters": ["421", "4035", "3242", "2133", "2449", "4531", "2257", "788", "PHI"],

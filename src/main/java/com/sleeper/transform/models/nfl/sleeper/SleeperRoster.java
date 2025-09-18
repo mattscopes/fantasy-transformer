@@ -1,11 +1,11 @@
-package com.sleeper.transform.models.sleeper;
+package com.sleeper.transform.models.nfl.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Roster {
+public class SleeperRoster {
     
     /*{
         "starters": ["2307", "2257", "4034", "147", "642", "4039", "515", "4149", "DET"],
@@ -32,13 +32,13 @@ public class Roster {
     private List<String> coOwners;
     private List<String> keepers;
     private String leagueId;
-    private RosterMetadata metadata;
+    private SleeperRosterMetadata metadata;
     private String ownerId;
     private Object playerMap;
     private List<String> players;
     private List<String> reserve;
     private Integer rosterId;
-    private RosterSettings settings;
+    private SleeperRosterSettings settings;
     private List<String> starters;
     private List<String> taxi;
     
@@ -66,11 +66,11 @@ public class Roster {
         this.leagueId = leagueId;
     }
     
-    public RosterMetadata getMetadata() {
+    public SleeperRosterMetadata getMetadata() {
         return metadata;
     }
     
-    public void setMetadata(RosterMetadata metadata) {
+    public void setMetadata(SleeperRosterMetadata metadata) {
         this.metadata = metadata;
     }
     
@@ -114,11 +114,11 @@ public class Roster {
         this.rosterId = rosterId;
     }
     
-    public RosterSettings getSettings() {
+    public SleeperRosterSettings getSettings() {
         return settings;
     }
     
-    public void setSettings(RosterSettings settings) {
+    public void setSettings(SleeperRosterSettings settings) {
         this.settings = settings;
     }
     

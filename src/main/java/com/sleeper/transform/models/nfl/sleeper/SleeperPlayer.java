@@ -1,4 +1,4 @@
-package com.sleeper.transform.models.sleeper;
+package com.sleeper.transform.models.nfl.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Player {
+public class SleeperPlayer {
     
     /*{
         "hashtag": "#TomBrady-NFL-NE-12",
@@ -78,7 +78,7 @@ public class Player {
     private Integer rotowireId;
     private String team;
     private String depthChartPosition;
-    private PlayerMetadata metadata;
+    private SleeperPlayerMetadata metadata;
     private Integer swishId;
     private String birthCountry;
     private String teamAbbr;
@@ -376,11 +376,11 @@ public class Player {
         this.depthChartPosition = depthChartPosition;
     }
     
-    public PlayerMetadata getMetadata() {
+    public SleeperPlayerMetadata getMetadata() {
         return metadata;
     }
     
-    public void setMetadata(PlayerMetadata metadata) {
+    public void setMetadata(SleeperPlayerMetadata metadata) {
         this.metadata = metadata;
     }
     

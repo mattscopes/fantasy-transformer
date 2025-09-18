@@ -1,9 +1,9 @@
-package com.sleeper.transform.models.sleeper;
+package com.sleeper.transform.models.nfl.sleeper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Bracket {
+public class SleeperBracket {
     
     /*[
         {r: 1, m: 1,   t1: 3,    t2: 6,     w: null, l: null},
@@ -22,8 +22,8 @@ public class Bracket {
     private Integer m; // match id
     private Integer t1; // team 1 roster_id
     private Integer t2; // team 2 roster_id
-    private From t1From; // source for team 1
-    private From t2From; // source for team 2
+    private SleeperFrom t1From; // source for team 1
+    private SleeperFrom t2From; // source for team 2
     private Integer w; // winner roster_id
     private Integer l; // loser roster_id
     
@@ -67,19 +67,19 @@ public class Bracket {
         this.t2 = t2;
     }
     
-    public From getT1From() {
+    public SleeperFrom getT1From() {
         return t1From;
     }
     
-    public void setT1From(From t1From) {
+    public void setT1From(SleeperFrom t1From) {
         this.t1From = t1From;
     }
     
-    public From getT2From() {
+    public SleeperFrom getT2From() {
         return t2From;
     }
     
-    public void setT2From(From t2From) {
+    public void setT2From(SleeperFrom t2From) {
         this.t2From = t2From;
     }
     

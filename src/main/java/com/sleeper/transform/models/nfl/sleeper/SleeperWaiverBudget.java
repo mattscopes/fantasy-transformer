@@ -1,6 +1,6 @@
-package com.sleeper.transform.models.sleeper;
+package com.sleeper.transform.models.nfl.sleeper;
 
-public class WaiverBudget {
+public class SleeperWaiverBudget {
     
     private Integer sender;
     private Integer receiver;
