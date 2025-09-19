@@ -20,7 +20,7 @@ Transforms fantasy sports APIs into unambiguous, viewable data.
 ### Setup
 
 Clone the repository:
-git clone git@github.com:MattScopes/sleeper-transform.git cd fantasy-transformer
+git clone git@github.com:mattscopes/sleeper-transform.git cd fantasy-transformer
 
 Build and run the application:
 ./mvnw spring-boot:run
