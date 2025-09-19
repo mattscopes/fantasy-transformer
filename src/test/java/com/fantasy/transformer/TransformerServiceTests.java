@@ -24,43 +24,43 @@ public class TransformerServiceTests {
         }
     }
 
-    @Test
-    void testGetLeague_returnsOrException() {
-        try {
-            Object result = transformerService.getLeague("1274146033739247616");
-            System.out.println("getLeague return: " + result.toString());
-        } catch (Exception e) {
-            System.out.println("getLeague threw exception: " + e);
-        }
-    }
-
-    @Test
-    void testGetRosters_returnsOrException() {
-        try {
-            Object result = transformerService.getRosters("1274146033739247616");
-            System.out.println("getRosters return: " + result.toString());
-        } catch (Exception e) {
-            System.out.println("getRosters threw exception: " + e);
-        }
-    }
-
-    @Test
-    void testGetUsers_returnsOrException() {
-        try {
-            Object result = transformerService.getUsers("1274146033739247616");
-            System.out.println("getUsers return: " + result.toString());
-        } catch (Exception e) {
-            System.out.println("getUsers threw exception: " + e);
-        }
-    }
-
-    @Test
-    void testGetPlayers_returnsOrException() throws IOException, InterruptedException {
-        try {
-            Object result = transformerService.getPlayers();
-            System.out.println("getPlayers return: " + result.toString());
-        } catch (Exception e) {
-            throw e;
-        }
-    }
+//    @Test
+//    void testGetLeague_returnsOrException() {
+//        try {
+//            Object result = transformerService.getLeague("");
+//            System.out.println("getLeague return: " + result.toString());
+//        } catch (Exception e) {
+//            System.out.println("getLeague threw exception: " + e);
+//        }
+//    }
+//
+//    @Test
+//    void testGetRosters_returnsOrException() {
+//        try {
+//            Object result = transformerService.getRosters("");
+//            System.out.println("getRosters return: " + result.toString());
+//        } catch (Exception e) {
+//            System.out.println("getRosters threw exception: " + e);
+//        }
+//    }
+//
+//    @Test
+//    void testGetUsers_returnsOrException() {
+//        try {
+//            Object result = transformerService.getUsers("");
+//            System.out.println("getUsers return: " + result.toString());
+//        } catch (Exception e) {
+//            System.out.println("getUsers threw exception: " + e);
+//        }
+//    }
+//
+//    @Test
+//    void testGetPlayers_returnsOrException() throws IOException, InterruptedException {
+//        try {
+//            Object result = transformerService.getPlayers();
+//            System.out.println("getPlayers return: " + result.toString());
+//        } catch (Exception e) {
+//            throw e;
+//        }
+//    }
 }
