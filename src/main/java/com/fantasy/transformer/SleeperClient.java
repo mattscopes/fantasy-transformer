@@ -1,12 +1,11 @@
 package com.fantasy.transformer;
 
-import com.fantasy.transformer.models.nfl.sleeper.*;
+import com.fantasy.transformer.models.sleeper.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fantasy.transformer.helpers.MillisFromEpochToInstantModule;
 import com.fantasy.transformer.helpers.SleeperClientHelper;
-import com.sleeper.transform.models.nfl.sleeper.*;
 import org.springframework.lang.NonNull;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -109,7 +108,7 @@ public class SleeperClient {
 
     public Map<String, SleeperPlayer> getPlayers(@NonNull String sport) throws IOException, InterruptedException {
         String url = UriComponentsBuilder.fromUriString(BASE_URL)
-            .pathSegment("player", sport)
+            .pathSegment("players", sport)
             .build()
             .toUriString();
         return SleeperClientHelper.processGetRequestMap(client, url, PLAYER_MAP_TYPE);

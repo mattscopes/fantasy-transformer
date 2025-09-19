@@ -1,0 +1,30 @@
+[
+  {
+    "co_owners": null,
+    "keepers": null,
+    "league_id": "1234567890",
+    "metadata": {
+      "record": "LWWWWLWWLWWLWL",
+      "streak": "1L"
+    },
+    "owner_id": "12345",
+    "player_map": null,
+    "players": [
+      "11600", "11625", "11631", "11638", "11647", "11834", "1264", "5846", "5892", "6786", "6804", "6963", "7564", "7596", "8150", "8154", "8183", "8408", "9484", "9487", "9504", "9757"
+    ],
+    "reserve": ["5892", "8408"],
+    "roster_id": 1,
+    "settings": {
+      "fpts": 2061,
+      "fpts_against": 2053,
+      "fpts_against_decimal": 92,
+      "fpts_decimal": 14,
+      "losses": 5,
+      "ppts": 2492,
+      "ppts_decimal": 12,
+      "ties": 0,
+      "total_moves": 0
+    }
+  }
+]
+

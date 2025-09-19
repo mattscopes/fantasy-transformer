@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Configuration
 @EnableCaching
@@ -20,6 +19,14 @@ public class CacheConfig {
     @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
     public void clearPlayersCache() {
         Objects.requireNonNull(cacheManager.getCache("players")).clear();
+    }
+
+    // Clears all other caches every 60 seconds
+    @Scheduled(fixedRate = 60 * 1000)
+    public void clearOtherCaches() {
+        Objects.requireNonNull(cacheManager.getCache("league")).clear();
+        Objects.requireNonNull(cacheManager.getCache("rosters")).clear();
+        Objects.requireNonNull(cacheManager.getCache("users")).clear();
     }
 
 }

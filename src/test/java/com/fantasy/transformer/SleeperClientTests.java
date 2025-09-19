@@ -1,12 +1,15 @@
 package com.fantasy.transformer;
 
-import com.fantasy.transformer.models.nfl.sleeper.SleeperLeague;
-import com.fantasy.transformer.models.nfl.sleeper.SleeperRoster;
-import com.fantasy.transformer.models.nfl.sleeper.SleeperPlayer;
+import com.fantasy.transformer.models.sleeper.SleeperLeague;
+import com.fantasy.transformer.models.sleeper.SleeperRoster;
+import com.fantasy.transformer.models.sleeper.SleeperPlayer;
+import com.fantasy.transformer.models.sleeper.SleeperUser;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
-import java.time.Instant;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.net.http.HttpClient;
@@ -17,93 +20,79 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SleeperClientTests {
-    
+
+    private SleeperClient client;
+
+    @BeforeEach
+    void setUp() {
+        client = new SleeperClient(HttpClient.newHttpClient());
+    }
+
     @Test
     void testSuccessfulQueryFromSleeper() throws Exception {
         assertDoesNotThrow(() -> {
-            SleeperClient sleeperClient = new SleeperClient(HttpClient.newHttpClient());
-            sleeperClient.getState("nfl");
+            client.getState("nfl");
         });
     }
     
     @Test
     void testGetLeague() throws Exception {
-        // Arrange
-        String json = "{\n" +
-            "  \"league_id\": \"123\",\n" +
-            "  \"name\": \"Test League\",\n" +
-            "  \"total_rosters\": 12,\n" +
-            "  \"last_message_time\": 1726274930594,\n" +
-            "  \"metadata\": {\n" +
-            "    \"auto_continue\": \"on\",\n" +
-            "    \"continued\": \"yes\",\n" +
-            "    \"keeper_deadline\": \"0\",\n" +
-            "    \"latest_league_winner_roster_id\": \"7\",\n" +
-            "    \"trophy_loser\": \"loser3\",\n" +
-            "    \"trophy_loser_background\": \"apple\",\n" +
-            "    \"trophy_loser_banner_text\": \"LOWER BRACKET\"\n" +
-            "  }\n" +
-            "}";
-        HttpClient mockClient = Mockito.mock(HttpClient.class);
-        HttpResponse<String> mockResponse = Mockito.mock(HttpResponse.class);
-        Mockito.when(mockResponse.body()).thenReturn(json);
-        Mockito.when(mockClient.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class)))
-            .thenReturn(mockResponse);
-        
-        SleeperClient client = new SleeperClient(mockClient);
-        
-        // Act
+        SleeperClient client = createMockedClientFromJson("src/test/resources/sleeper-client-tests/test-league.json");
         SleeperLeague sleeperLeague = client.getLeague("123");
-        
-        // Assert
-        assertEquals("123", sleeperLeague.getLeagueId());
-        assertEquals("Test League", sleeperLeague.getName());
-        assertEquals(Instant.parse("2024-09-14T00:48:50.594Z"), sleeperLeague.getLastMessageTime());
-        assertEquals(12, sleeperLeague.getTotalRosters());
+        assertEquals("1274146033739247616", sleeperLeague.getLeagueId());
+        assertEquals("test", sleeperLeague.getName());
+        assertEquals("2025", sleeperLeague.getSeason());
+        assertEquals(8, sleeperLeague.getTotalRosters());
+    }
+
+    @Test
+    void testGetUsers() throws Exception {
+        SleeperClient client = createMockedClientFromJson("src/test/resources/sleeper-client-tests/test-users.json");
+        List<SleeperUser> sleeperUsers = client.getUsers("123");
+        assertEquals(3, sleeperUsers.size());
+        assertEquals("34576657345345657", sleeperUsers.get(0).getUserId());
+        assertEquals("ham123", sleeperUsers.get(0).getDisplayName());
+        assertEquals(null, sleeperUsers.get(0).getMetadata().getTeamName());
+        assertEquals("5324532464574566", sleeperUsers.get(1).getUserId());
+        assertEquals("fake123", sleeperUsers.get(1).getDisplayName());
+        assertEquals("C.S. Disguise & Vacuum", sleeperUsers.get(1).getMetadata().getTeamName());
     }
     
     @Test
     void testGetRosters() throws Exception {
-        // Arrange
-        String json = "[{ \"roster_id\": 1, \"league_id\": \"123\", \"owner_id\": \"owner1\" }]";
-        HttpClient mockClient = Mockito.mock(HttpClient.class);
-        HttpResponse<String> mockResponse = Mockito.mock(HttpResponse.class);
-        Mockito.when(mockResponse.body()).thenReturn(json);
-        Mockito.when(mockClient.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class)))
-            .thenReturn(mockResponse);
-        
-        SleeperClient client = new SleeperClient(mockClient);
-        
-        // Act
+        SleeperClient client = createMockedClientFromJson("src/test/resources/sleeper-client-tests/test-rosters.json");
         List<SleeperRoster> sleeperRosters = client.getRosters("123");
-        
-        // Assert
         assertEquals(1, sleeperRosters.get(0).getRosterId());
-        assertEquals("123", sleeperRosters.get(0).getLeagueId());
-        assertEquals("owner1", sleeperRosters.get(0).getOwnerId());
+        assertEquals("1234567890", sleeperRosters.get(0).getLeagueId());
+        assertEquals("12345", sleeperRosters.get(0).getOwnerId());
     }
-    
+
     @Test
     void testGetPlayers() throws Exception {
-        // Arrange
-        String json = "{ \"1352\": { \"player_id\": \"1352\", \"first_name\": \"Robert\", \"last_name\": \"Woods\" }, \"6462\": { \"player_id\": \"6462\", \"first_name\": \"Ellis\", \"last_name\": \"Richardson\" } }";
+        SleeperClient client = createMockedClientFromJson("src/test/resources/sleeper-client-tests/test-players.json");
+        Map<String, SleeperPlayer> sleeperPlayersById = client.getPlayers("nfl");
+        assertEquals(3, sleeperPlayersById.size());
+        assertEquals("Ellis", sleeperPlayersById.get("6462").getFirstName());
+        assertEquals("Richardson", sleeperPlayersById.get("6462").getLastName());
+        assertEquals("Malkelm", sleeperPlayersById.get("8842").getFirstName());
+        assertEquals("Morrison", sleeperPlayersById.get("8842").getLastName());
+    }
+
+    @Test
+    void testSuccessfulGetPlayersromSleeper() throws Exception {
+        assertDoesNotThrow(() -> {
+            client.getPlayers("nfl");
+        });
+    }
+
+    private SleeperClient createMockedClientFromJson(String jsonFilePath) throws Exception {
+        String json = Files.readString(Paths.get(jsonFilePath));
         HttpClient mockClient = Mockito.mock(HttpClient.class);
         HttpResponse<String> mockResponse = Mockito.mock(HttpResponse.class);
         Mockito.when(mockResponse.body()).thenReturn(json);
         Mockito.when(mockClient.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class)))
             .thenReturn(mockResponse);
-        
-        SleeperClient client = new SleeperClient(mockClient);
-        
-        // Act
-        Map<String, SleeperPlayer> sleeperPlayersById = client.getPlayers("nfl");
-        
-        // Assert
-        assertEquals(2, sleeperPlayersById.size());
-        assertEquals("Robert", sleeperPlayersById.get("1352").getFirstName());
-        assertEquals("Woods", sleeperPlayersById.get("1352").getLastName());
-        assertEquals("Ellis", sleeperPlayersById.get("6462").getFirstName());
-        assertEquals("Richardson", sleeperPlayersById.get("6462").getLastName());
+        return new SleeperClient(mockClient);
     }
-    
+
 }
