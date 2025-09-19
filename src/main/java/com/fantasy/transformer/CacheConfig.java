@@ -15,7 +15,7 @@ public class CacheConfig {
     @Autowired
     private CacheManager cacheManager;
 
-    // Clears the 'getPlayers' cache every 24 hours
+    // Clears the players cache every 24 hours
     @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
     public void clearPlayersCache() {
         Objects.requireNonNull(cacheManager.getCache("players")).clear();
@@ -30,3 +30,4 @@ public class CacheConfig {
     }
 
 }
+

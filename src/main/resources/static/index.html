@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fantasy Transformer Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        input, button { margin: 0.5em; }
+        table { border-collapse: collapse; margin-top: 1em; }
+        th, td { border: 1px solid #ccc; padding: 0.5em; }
+        th { background: #eee; }
+        .section { margin-bottom: 2em; }
+    </style>
+</head>
+<body>
+    <h1>Fantasy Transformer Data Viewer</h1>
+    <div class="section">
+        <label for="leagueId">League ID:</label>
+        <input type="text" id="leagueId" value="">
+        <button onclick="fetchLeague()">Get League</button>
+        <button onclick="fetchRosters()">Get Rosters</button>
+        <button onclick="fetchUsers()">Get Users</button>
+        <button onclick="fetchPlayers()">Get Players</button>
+    </div>
+    <div class="section" id="leagueSection"></div>
+    <div class="section" id="rostersSection"></div>
+    <div class="section" id="usersSection"></div>
+    <div class="section" id="playersSection"></div>
+    <script>
+        function fetchLeague() {
+            const leagueId = document.getElementById('leagueId').value;
+            fetch(`/api/league/${leagueId}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('leagueSection').innerHTML = `<h2>League</h2><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                });
+        }
+        function fetchRosters() {
+            const leagueId = document.getElementById('leagueId').value;
+            fetch(`/api/rosters/${leagueId}`)
+                .then(res => res.json())
+                .then(data => {
+                    let html = `<h2>Rosters</h2><table><tr><th>ID</th><th>League ID</th><th>User ID</th><th>Wins</th><th>Losses</th><th>Players</th></tr>`;
+                    data.forEach(r => {
+                        html += `<tr><td>${r.id}</td><td>${r.leagueId}</td><td>${r.userId}</td><td>${r.wins ?? ''}</td><td>${r.losses ?? ''}</td><td>${(r.players||[]).map(p => p.firstName + ' ' + p.lastName).join(', ')}</td></tr>`;
+                    });
+                    html += `</table>`;
+                    document.getElementById('rostersSection').innerHTML = html;
+                });
+        }
+        function fetchUsers() {
+            const leagueId = document.getElementById('leagueId').value;
+            fetch(`/api/users/${leagueId}`)
+                .then(res => res.json())
+                .then(data => {
+                    let html = `<h2>Users</h2><table><tr><th>ID</th><th>Name</th><th>Team Name</th></tr>`;
+                    data.forEach(u => {
+                        html += `<tr><td>${u.id}</td><td>${u.name}</td><td>${u.teamName ?? ''}</td></tr>`;
+                    });
+                    html += `</table>`;
+                    document.getElementById('usersSection').innerHTML = html;
+                });
+        }
+        function fetchPlayers() {
+            fetch(`/api/players`)
+                .then(res => res.json())
+                .then(data => {
+                    let html = `<h2>Players</h2><table><tr><th>ID</th><th>Name</th><th>Team</th><th>Number</th><th>Positions</th></tr>`;
+                    data.forEach(p => {
+                        html += `<tr><td>${p.id}</td><td>${p.firstName ?? ''} ${p.lastName ?? ''}</td><td>${p.team ?? ''}</td><td>${p.number ?? ''}</td><td>${(p.positions||[]).join(', ')}</td></tr>`;
+                    });
+                    html += `</table>`;
+                    document.getElementById('playersSection').innerHTML = html;
+                });
+        }
+    </script>
+</body>
+</html>
+
