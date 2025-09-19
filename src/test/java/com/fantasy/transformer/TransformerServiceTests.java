@@ -14,7 +14,7 @@ public class TransformerServiceTests {
     void setUp() {
         sleeperClient = new SleeperClient(HttpClient.newHttpClient());
         transformerService = new TransformerService();
-        // Inject SleeperClient into TransformService using reflection
+        // Inject SleeperClient into TransformerService using reflection
         try {
             var field = TransformerService.class.getDeclaredField("sleeperClient");
             field.setAccessible(true);
