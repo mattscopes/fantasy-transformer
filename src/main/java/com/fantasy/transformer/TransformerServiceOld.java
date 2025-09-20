@@ -1,8 +1,9 @@
 package com.fantasy.transformer;
 
-import com.fantasy.transformer.models.internal.League;
-import com.fantasy.transformer.models.internal.Team;
-import com.fantasy.transformer.models.internal.Player;
+import com.fantasy.transformer.models.internal.v1.League;
+import com.fantasy.transformer.models.internal.v1.Player;
+import com.fantasy.transformer.models.internal.v1.Roster;
+import com.fantasy.transformer.models.internal.v1.User;
 import com.fantasy.transformer.models.sleeper.SleeperLeague;
 import com.fantasy.transformer.models.sleeper.SleeperPlayer;
 import com.fantasy.transformer.models.sleeper.SleeperRoster;
@@ -16,40 +17,22 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class TransformerService {
+public class TransformerServiceOld {
 
     @Autowired
     private SleeperClient sleeperClient;
 
     @Cacheable("league")
     public League getLeague(String leagueId) throws IOException, InterruptedException {
-
-        // Fetch sleeperLeague to build out league details
         SleeperLeague sleeperLeague = Optional.ofNullable(sleeperClient.getLeague(leagueId))
             .orElse(new SleeperLeague());
-
         League league = new League();
+        Optional.of(sleeperLeague.getLeagueId())
+            .ifPresent(league::setId);
         Optional.of(sleeperLeague.getName())
             .ifPresent(league::setName);
         Optional.ofNullable(sleeperLeague.getSeason())
             .ifPresent(league::setSeason);
-        Optional.ofNullable(sleeperLeague.getSport())
-            .ifPresent(league::setSport);
-
-        // Fetch sleeperUsers to build team names
-        List<SleeperUser> sleeperUsers = Optional.ofNullable(sleeperClient.getRosters(leagueId))
-            .orElse(Collections.emptyList());
-
-
-
-
-        // Fetch sleeperRosters to build teams
-        List<SleeperRoster> sleeperRosters = Optional.ofNullable(sleeperClient.getRosters(leagueId))
-            .orElse(Collections.emptyList());
-
-        // Fetch sleeperPlayers to build out players
-
-
         return league;
     }
 

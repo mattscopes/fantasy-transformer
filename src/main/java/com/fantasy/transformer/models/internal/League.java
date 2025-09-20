@@ -1,18 +1,13 @@
 package com.fantasy.transformer.models.internal;
 
+import java.util.List;
+
 public class League {
 
-    private String id;
     private String name;
     private String season;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String sport;
+    private List<Team> teams;
 
     public String getName() {
         return name;
@@ -30,12 +25,29 @@ public class League {
         this.season = season;
     }
 
+    public String getSport() {
+        return sport;
+    }
+
+    public void setSport(String sport) {
+        this.sport = sport;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
     @Override
     public String toString() {
         return "League{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", season='" + season + '\'' +
-                '}';
+            ", name='" + name + '\'' +
+            ", season='" + season + '\'' +
+            ", sport='" + sport + '\'' +
+            ", teams=" + teams +
+            '}';
     }
 }

@@ -1,9 +1,9 @@
 package com.fantasy.transformer;
 
-import com.fantasy.transformer.models.internal.League;
-import com.fantasy.transformer.models.internal.Player;
-import com.fantasy.transformer.models.internal.Roster;
-import com.fantasy.transformer.models.internal.User;
+import com.fantasy.transformer.models.internal.v1.League;
+import com.fantasy.transformer.models.internal.v1.Player;
+import com.fantasy.transformer.models.internal.v1.Roster;
+import com.fantasy.transformer.models.internal.v1.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.fantasy.transformer.models.internal;
+package com.fantasy.transformer.models.internal.v1;
 
 public class User {
 

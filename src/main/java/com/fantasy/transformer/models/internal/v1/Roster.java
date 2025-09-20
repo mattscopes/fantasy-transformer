@@ -1,14 +1,13 @@
-package com.fantasy.transformer.models.internal;
+package com.fantasy.transformer.models.internal.v1;
 
 import java.util.List;
 
 public class Roster {
 
     private String id;
-    private String leagueId;
-    private String userId;
+    private League league;
+    private User user;
     private String name;
-    private Integer season;
     private Integer wins;
     private Integer losses;
     private List<Player> players;
@@ -21,20 +20,20 @@ public class Roster {
         this.id = id;
     }
 
-    public String getLeagueId() {
-        return leagueId;
+    public League getLeague() {
+        return league;
     }
 
-    public void setLeagueId(String leagueId) {
-        this.leagueId = leagueId;
+    public void setLeague(League league) {
+        this.league = league;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {
@@ -43,14 +42,6 @@ public class Roster {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getSeason() {
-        return season;
-    }
-
-    public void setSeason(Integer season) {
-        this.season = season;
     }
 
     public Integer getWins() {
@@ -77,17 +68,17 @@ public class Roster {
         this.players = players;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Roster{" +
             "id='" + id + '\'' +
-            ", leagueId='" + leagueId + '\'' +
-            ", userId='" + userId + '\'' +
+            ", league=" + league +
+            ", user=" + user +
             ", name='" + name + '\'' +
-            ", season=" + season +
             ", wins=" + wins +
             ", losses=" + losses +
             ", players=" + players +
             '}';
     }
+
 }

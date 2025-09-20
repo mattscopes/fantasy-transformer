@@ -1,10 +1,17 @@
 package com.fantasy.transformer;
 
+import com.fantasy.transformer.models.internal.v1.User;
+import com.fantasy.transformer.models.sleeper.SleeperUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TransformerServiceTests {
     private SleeperClient sleeperClient;
@@ -22,6 +29,35 @@ public class TransformerServiceTests {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    void test() throws IOException, InterruptedException {
+
+        getUsers(null);
+
+    }
+
+    public List<User> getUsers(List<SleeperUser> sleeperUsers) throws IOException, InterruptedException {
+        List<User> users =  Optional.ofNullable(sleeperUsers)
+            .orElse(Collections.emptyList())
+            .stream()
+            .filter(Objects::nonNull)
+            .map(su -> {
+                User user = new User();
+                Optional.ofNullable(su.getUserId())
+                    .ifPresent(user::setId);
+                Optional.ofNullable(su.getDisplayName())
+                    .ifPresent(user::setName);
+                Optional.ofNullable(su.getMetadata())
+                    .map(meta -> meta.getTeamName())
+                    .ifPresent(user::setTeamName);
+                return user;
+            })
+            .collect(Collectors.toList());
+
+        System.out.println(users);
+        return users;
     }
 
 //    @Test
