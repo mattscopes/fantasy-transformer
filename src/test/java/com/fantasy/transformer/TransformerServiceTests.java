@@ -1,6 +1,5 @@
 package com.fantasy.transformer;
 
-import com.fantasy.transformer.models.internal.v1.User;
 import com.fantasy.transformer.models.sleeper.SleeperUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
