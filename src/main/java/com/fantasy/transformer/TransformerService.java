@@ -3,16 +3,13 @@ package com.fantasy.transformer;
 import com.fantasy.transformer.models.internal.League;
 import com.fantasy.transformer.models.internal.Team;
 import com.fantasy.transformer.models.internal.Player;
-import com.fantasy.transformer.models.sleeper.SleeperLeague;
-import com.fantasy.transformer.models.sleeper.SleeperPlayer;
-import com.fantasy.transformer.models.sleeper.SleeperRoster;
-import com.fantasy.transformer.models.sleeper.SleeperUser;
+import com.fantasy.transformer.models.sleeper.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,180 +18,108 @@ public class TransformerService {
     @Autowired
     private SleeperClient sleeperClient;
 
-    @Cacheable("league")
-    public League getLeague(String leagueId) throws IOException, InterruptedException {
+    public League parseLeague(String sport, String leagueId) throws IOException, InterruptedException {
 
-        // Fetch sleeperLeague to build out league details
         SleeperLeague sleeperLeague = Optional.ofNullable(sleeperClient.getLeague(leagueId))
             .orElse(new SleeperLeague());
+        List<SleeperUser> sleeperUsers = Optional.ofNullable(sleeperClient.getUsers(leagueId))
+            .orElse(Collections.emptyList());
+        List<SleeperRoster> sleeperRosters = Optional.ofNullable(sleeperClient.getRosters(leagueId))
+            .orElse(Collections.emptyList());
+        Map<String,SleeperPlayer> sleeperPlayers = Optional.ofNullable(sleeperClient.getPlayers(sport))
+            .orElse(Collections.emptyMap());
 
         League league = new League();
+
         Optional.of(sleeperLeague.getName())
             .ifPresent(league::setName);
         Optional.ofNullable(sleeperLeague.getSeason())
             .ifPresent(league::setSeason);
         Optional.ofNullable(sleeperLeague.getSport())
+            .map(v -> v.toUpperCase())
             .ifPresent(league::setSport);
 
-        // Fetch sleeperUsers to build team names
-        List<SleeperUser> sleeperUsers = Optional.ofNullable(sleeperClient.getRosters(leagueId))
-            .orElse(Collections.emptyList());
+        List<Team> teams = parseTeams(sleeperUsers, sleeperRosters, sleeperPlayers);
 
-
-
-
-        // Fetch sleeperRosters to build teams
-        List<SleeperRoster> sleeperRosters = Optional.ofNullable(sleeperClient.getRosters(leagueId))
-            .orElse(Collections.emptyList());
-
-        // Fetch sleeperPlayers to build out players
-
+        league.setTeams(teams);
 
         return league;
     }
 
-    @Cacheable("rosters")
-    public List<Roster> getRosters(String leagueId) throws IOException, InterruptedException {
+    private List<Team> parseTeams(List<SleeperUser> sleeperUsers, List<SleeperRoster> sleeperRosters, Map<String,SleeperPlayer> sleeperPlayers) {
 
-        List<SleeperRoster> sleeperRosters = Optional.ofNullable(sleeperClient.getRosters(leagueId))
-            .orElse(Collections.emptyList());
-        // Fetch all players once and map by ID
-        Map<String, Player> playerMap = Optional.ofNullable(getPlayers())
+        Map<String, SleeperUser> userMap = Optional.ofNullable(sleeperUsers)
             .orElse(Collections.emptyList())
             .stream()
             .filter(Objects::nonNull)
-            .collect(Collectors.toMap(Player::getId, p -> p));
+            .collect(Collectors.toMap(SleeperUser::getUserId, su -> su));
 
-        League league = getLeague(leagueId);
-        Map<String, User> userMap = Optional.ofNullable(getUsers(leagueId))
-            .orElse(Collections.emptyList())
-            .stream()
+        List<Team> teams = sleeperRosters.stream()
             .filter(Objects::nonNull)
-            .collect(Collectors.toMap(User::getId, u -> u));
+            .map(sleeperRoster -> {
 
-        List<Roster> rosters = Optional.ofNullable(sleeperRosters)
-            .orElse(Collections.emptyList())
-            .stream()
-            .filter(Objects::nonNull)
-            .map(sr -> {
-                Roster roster = new Roster();
-                Optional.ofNullable(sr.getRosterId())
-                    .map(Object::toString)
-                    .ifPresent(roster::setId);
-                Optional.ofNullable(league)
-                        .ifPresent(roster::setLeague);
-                Optional.ofNullable(sr.getOwnerId())
-                    .map(userMap::get)
-                    .ifPresent(roster::setUser);
-                Optional.ofNullable(sr.getPlayers())
-                    .ifPresent(playerIds -> {
-                        List<Player> players = new ArrayList<>();
-                        for (String playerId : playerIds) {
-                            Optional.ofNullable(playerMap.get(playerId))
-                                .ifPresent(players::add);
-                        }
-                        roster.setPlayers(players);
-                    });
-                Optional.ofNullable(sr.getSettings())
-                    .ifPresent(settings -> {
-                        Optional.ofNullable(settings.getWins())
-                            .ifPresent(roster::setWins);
-                        Optional.ofNullable(settings.getLosses())
-                            .ifPresent(roster::setLosses);
-                    });
-                return roster;
+                Team team = new Team();
+
+                Optional.ofNullable(parseTeamName(userMap, sleeperRoster))
+                    .ifPresent(team::setName);
+                Optional.ofNullable(sleeperRoster.getSettings())
+                    .map(SleeperRosterSettings::getWins)
+                    .ifPresent(team::setWins);
+                Optional.ofNullable(sleeperRoster.getSettings())
+                    .map(SleeperRosterSettings::getLosses)
+                    .ifPresent(team::setLosses);
+                Optional.ofNullable(sleeperRoster.getSettings())
+                    .map(SleeperRosterSettings::getTies)
+                    .ifPresent(team::setTies);
+                Optional.ofNullable(sleeperRoster.getStarters())
+                    .map(v -> parsePlayers(sleeperPlayers, v))
+                    .ifPresent(team::setStarters);
+
+                return team;
+
             })
             .collect(Collectors.toList());
 
-        return rosters;
-
-
-//        List<SleeperRoster> sleeperRosters = Optional.ofNullable(sleeperClient.getRosters(leagueId))
-//            .orElse(new ArrayList<>());
-//        // Fetch all players once and map by ID
-//        Map<String, Player> playerMap = new HashMap<>();
-//        for (Player p : getPlayers()) {
-//            playerMap.put(p.getId(), p);
-//        }
-//        // Fetch league and users
-//        League league = getLeague(leagueId);
-//        List<User> users = getUsers(leagueId);
-//        Map<String, User> userMap = new HashMap<>();
-//        for (User u : users) {
-//            userMap.put(u.getId(), u);
-//        }
-//        List<Roster> rosters = new ArrayList<>();
-//        for (SleeperRoster sr : sleeperRosters) {
-//            Roster roster = new Roster();
-//            Optional.ofNullable(sr.getRosterId())
-//                .map(Object::toString)
-//                .ifPresent(roster::setId);
-//            Optional.ofNullable(league)
-//                    .ifPresent(roster::setLeague);
-//            Optional.ofNullable(sr.getOwnerId())
-//                .map(userMap::get)
-//                .ifPresent(roster::setUser);
-//            Optional.ofNullable(sr.getPlayers())
-//                .ifPresent(playerIds -> {
-//                    List<Player> players = new ArrayList<>();
-//                    for (String playerId : playerIds) {
-//                        Optional.ofNullable(playerMap.get(playerId))
-//                            .ifPresent(players::add);
-//                    }
-//                    roster.setPlayers(players);
-//                });
-//            Optional.ofNullable(sr.getSettings())
-//                .ifPresent(settings -> {
-//                    Optional.ofNullable(settings.getWins())
-//                        .ifPresent(roster::setWins);
-//                    Optional.ofNullable(settings.getLosses())
-//                        .ifPresent(roster::setLosses);
-//                });
-//            rosters.add(roster);
-//        }
-//        return rosters;
+        return teams;
     }
 
-    @Cacheable("users")
-    public List<User> getUsers(String leagueId) throws IOException, InterruptedException {
-        List<SleeperUser> sleeperUsers = Optional.ofNullable(sleeperClient.getUsers(leagueId))
-            .orElse(Collections.emptyList());
+    private String parseTeamName(Map<String,SleeperUser> userMap, SleeperRoster sleeperRoster) {
 
-        List<User> users = Optional.ofNullable(sleeperUsers)
-            .orElse(Collections.emptyList())
-            .stream()
-            .filter(Objects::nonNull)
-            .map(su -> {
-                User user = new User();
-                Optional.ofNullable(su.getUserId())
-                    .ifPresent(user::setId);
-                Optional.ofNullable(su.getDisplayName())
-                    .ifPresent(user::setName);
+        AtomicReference<String> teamName = new AtomicReference<>();
+
+        Optional.ofNullable(sleeperRoster.getOwnerId())
+            .map(userMap::get)
+            .ifPresent(su -> {
                 Optional.ofNullable(su.getMetadata())
-                    .map(meta -> meta.getTeamName())
-                    .ifPresent(user::setTeamName);
-                return user;
-            })
-            .collect(Collectors.toList());
+                    .map(SleeperUserMetadata::getTeamName)
+                    .ifPresent(teamName::set);
+                if (teamName.get() == null || teamName.get().isEmpty()) {
+                    Optional.ofNullable(su.getDisplayName())
+                        .ifPresent(teamName::set);
+                }
+            });
 
-        return users.isEmpty() ? null : users;
+        if (teamName.get() == null || teamName.get().isEmpty()) {
+            Optional.ofNullable(sleeperRoster.getRosterId())
+                .ifPresent(id -> teamName.set("Team " + id));
+        }
+        if (teamName.get() == null || teamName.get().isEmpty()) {
+            teamName.set("Unknown Team");
+        }
+
+        return teamName.get();
     }
 
+    private List<Player> parsePlayers(Map<String,SleeperPlayer> sleeperPlayers, List<String> SleeperPlayerIds) {
 
-    @Cacheable("players")
-    public List<Player> getPlayers() throws IOException, InterruptedException {
-        Map<String, SleeperPlayer> sleeperPlayers = Optional.ofNullable(sleeperClient.getPlayers("nfl"))
-            .orElse(Map.of());
-
-        List<Players> players = Optional.ofNullable(sleeperPlayers)
-            .map(Map::values)
+        List<Player> players = Optional.ofNullable(SleeperPlayerIds)
             .orElse(Collections.emptyList())
             .stream()
+            .map(sleeperPlayers::get)
             .filter(Objects::nonNull)
             .map(sp -> {
+
                 Player player = new Player();
-                Optional.ofNullable(sp.getPlayerId())
-                    .ifPresent(player::setId);
                 Optional.ofNullable(sp.getFirstName())
                     .ifPresent(player::setFirstName);
                 Optional.ofNullable(sp.getLastName())
@@ -206,10 +131,11 @@ public class TransformerService {
                 Optional.ofNullable(sp.getNumber())
                     .ifPresent(player::setNumber);
                 return player;
+
             })
             .collect(Collectors.toList());
 
-        return players.isEmpty() ? null : users;
+        return players.isEmpty() ? null : players;
     }
 
 }

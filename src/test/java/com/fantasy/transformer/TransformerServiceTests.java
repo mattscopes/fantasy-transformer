@@ -17,48 +17,48 @@ public class TransformerServiceTests {
     private SleeperClient sleeperClient;
     private TransformerService transformerService;
 
-    @BeforeEach
-    void setUp() {
-        sleeperClient = new SleeperClient(HttpClient.newHttpClient());
-        transformerService = new TransformerService();
-        // Inject SleeperClient into TransformerService using reflection
-        try {
-            var field = TransformerService.class.getDeclaredField("sleeperClient");
-            field.setAccessible(true);
-            field.set(transformerService, sleeperClient);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    @BeforeEach
+//    void setUp() {
+//        sleeperClient = new SleeperClient(HttpClient.newHttpClient());
+//        transformerService = new TransformerService();
+//        // Inject SleeperClient into TransformerService using reflection
+//        try {
+//            var field = TransformerService.class.getDeclaredField("sleeperClient");
+//            field.setAccessible(true);
+//            field.set(transformerService, sleeperClient);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
-    @Test
-    void test() throws IOException, InterruptedException {
-
-        getUsers(null);
-
-    }
-
-    public List<User> getUsers(List<SleeperUser> sleeperUsers) throws IOException, InterruptedException {
-        List<User> users =  Optional.ofNullable(sleeperUsers)
-            .orElse(Collections.emptyList())
-            .stream()
-            .filter(Objects::nonNull)
-            .map(su -> {
-                User user = new User();
-                Optional.ofNullable(su.getUserId())
-                    .ifPresent(user::setId);
-                Optional.ofNullable(su.getDisplayName())
-                    .ifPresent(user::setName);
-                Optional.ofNullable(su.getMetadata())
-                    .map(meta -> meta.getTeamName())
-                    .ifPresent(user::setTeamName);
-                return user;
-            })
-            .collect(Collectors.toList());
-
-        System.out.println(users);
-        return users;
-    }
+//    @Test
+//    void test() throws IOException, InterruptedException {
+//
+//        getUsers(null);
+//
+//    }
+//
+//    public List<User> getUsers(List<SleeperUser> sleeperUsers) throws IOException, InterruptedException {
+//        List<User> users =  Optional.ofNullable(sleeperUsers)
+//            .orElse(Collections.emptyList())
+//            .stream()
+//            .filter(Objects::nonNull)
+//            .map(su -> {
+//                User user = new User();
+//                Optional.ofNullable(su.getUserId())
+//                    .ifPresent(user::setId);
+//                Optional.ofNullable(su.getDisplayName())
+//                    .ifPresent(user::setName);
+//                Optional.ofNullable(su.getMetadata())
+//                    .map(meta -> meta.getTeamName())
+//                    .ifPresent(user::setTeamName);
+//                return user;
+//            })
+//            .collect(Collectors.toList());
+//
+//        System.out.println(users);
+//        return users;
+//    }
 
 //    @Test
 //    void testGetLeague_returnsOrException() {

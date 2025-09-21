@@ -22,12 +22,12 @@ public class CacheConfig {
     }
 
     // Clears all other caches every 60 seconds
-    @Scheduled(fixedRate = 60 * 1000)
-    public void clearOtherCaches() {
-        Objects.requireNonNull(cacheManager.getCache("league")).clear();
-        Objects.requireNonNull(cacheManager.getCache("rosters")).clear();
-        Objects.requireNonNull(cacheManager.getCache("users")).clear();
-    }
+//    @Scheduled(fixedRate = 60 * 1000)
+//    public void clearOtherCaches() {
+//        Objects.requireNonNull(cacheManager.getCache("league")).clear();
+//        Objects.requireNonNull(cacheManager.getCache("rosters")).clear();
+//        Objects.requireNonNull(cacheManager.getCache("users")).clear();
+//    }
 
 }
 

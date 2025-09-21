@@ -16,4 +16,3 @@ public class SleeperClientConfig {
         return new SleeperClient(httpClient);
     }
 }
-

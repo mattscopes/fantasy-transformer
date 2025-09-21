@@ -1,9 +1,6 @@
 package com.fantasy.transformer;
 
-import com.fantasy.transformer.models.internal.v1.League;
-import com.fantasy.transformer.models.internal.v1.Player;
-import com.fantasy.transformer.models.internal.v1.Roster;
-import com.fantasy.transformer.models.internal.v1.User;
+import com.fantasy.transformer.models.internal.League;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,22 +16,8 @@ public class TransformerController {
 
     @GetMapping("/league/{leagueId}")
     public League getLeague(@PathVariable String leagueId) throws IOException, InterruptedException {
-        return transformerService.getLeague(leagueId);
+        return transformerService.parseLeague("nfl", leagueId);
     }
 
-    @GetMapping("/rosters/{leagueId}")
-    public List<Roster> getRosters(@PathVariable String leagueId) throws IOException, InterruptedException {
-        return transformerService.getRosters(leagueId);
-    }
-
-    @GetMapping("/users/{leagueId}")
-    public List<User> getUsers(@PathVariable String leagueId) throws IOException, InterruptedException {
-        return transformerService.getUsers(leagueId);
-    }
-
-    @GetMapping("/players")
-    public List<Player> getPlayers() throws IOException, InterruptedException {
-        return transformerService.getPlayers();
-    }
 }
 
