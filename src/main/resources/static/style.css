@@ -160,6 +160,32 @@ tr:nth-child(even) {
 .team-card:hover {
     box-shadow: 0 4px 16px rgba(44,62,80,0.10);
 }
+.team-card > div {
+    margin-bottom: 1em;
+    padding: 0.5em 0.75em;
+    background: #f9fafb;
+    border-radius: 4px;
+    border-left: 4px solid #3498db;
+}
+.team-card > div:last-child {
+    margin-bottom: 0;
+}
+.team-card strong {
+    display: block;
+    font-size: 1.05em;
+    color: #217dbb;
+    margin-bottom: 0.25em;
+}
+.team-card h3 {
+    margin-top: 0;
+}
+.modal-content h3 {
+    margin-top: 1em;
+    color: #217dbb;
+}
+.modal-content ul {
+    margin-bottom: 1em;
+}
 .player-list {
     list-style: none;
     padding: 0;

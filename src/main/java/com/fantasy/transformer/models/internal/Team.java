@@ -8,6 +8,9 @@ public class Team {
     private Integer losses;
     private Integer ties;
     private List<Player> starters;
+    private List<Player> reserves;
+    private List<Player> taxis;
+    private List<Player> bench;
 
     public String getName() {
         return name;
@@ -49,6 +52,30 @@ public class Team {
         this.starters = starters;
     }
 
+    public List<Player> getReserves() {
+        return reserves;
+    }
+
+    public void setReserves(List<Player> reserves) {
+        this.reserves = reserves;
+    }
+
+    public List<Player> getTaxis() {
+        return taxis;
+    }
+
+    public void setTaxis(List<Player> taxis) {
+        this.taxis = taxis;
+    }
+
+    public List<Player> getBench() {
+        return bench;
+    }
+
+    public void setBench(List<Player> bench) {
+        this.bench = bench;
+    }
+
     @Override
     public String toString() {
         return "Team{" +
@@ -57,6 +84,9 @@ public class Team {
             ", losses=" + losses +
             ", ties=" + ties +
             ", starters=" + starters +
+            ", bench=" + bench +
+            ", reserves=" + reserves +
+            ", taxis=" + taxis +
             '}';
     }
 }

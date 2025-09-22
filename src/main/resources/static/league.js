@@ -75,11 +75,32 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             startersHtml = '<p>No starters found.</p>';
         }
+        let benchHtml = '';
+        if (team.bench && team.bench.length > 0) {
+            benchHtml = `<ul class="player-list">${team.bench.map((p, pidx) => `<li>${p.firstName || ''} ${p.lastName || ''} <span style='color:#888'>(${(p.positions||[]).join(', ')})</span></li>`).join('')}</ul>`;
+        } else {
+            benchHtml = '<p>No bench players found.</p>';
+        }
+        let reservesHtml = '';
+        if (team.reserves && team.reserves.length > 0) {
+            reservesHtml = `<ul class="player-list">${team.reserves.map((p, pidx) => `<li>${p.firstName || ''} ${p.lastName || ''} <span style='color:#888'>(${(p.positions||[]).join(', ')})</span></li>`).join('')}</ul>`;
+        } else {
+            reservesHtml = '<p>No reserves found.</p>';
+        }
+        let taxisHtml = '';
+        if (team.taxis && team.taxis.length > 0) {
+            taxisHtml = `<ul class="player-list">${team.taxis.map((p, pidx) => `<li>${p.firstName || ''} ${p.lastName || ''} <span style='color:#888'>(${(p.positions||[]).join(', ')})</span></li>`).join('')}</ul>`;
+        } else {
+            taxisHtml = '<p>No taxi players found.</p>';
+        }
         return `
             <div class="team-card" data-team-idx="${idx}" tabindex="0" aria-label="View team details">
                 <h3>${team.name || 'Team'}</h3>
                 <p><strong>Wins:</strong> ${team.wins ?? '-'} | <strong>Losses:</strong> ${team.losses ?? '-'} | <strong>Ties:</strong> ${team.ties ?? '-'}</p>
                 <div><strong>Starters:</strong> ${startersHtml}</div>
+                <div><strong>Bench:</strong> ${benchHtml}</div>
+                <div><strong>Reserves:</strong> ${reservesHtml}</div>
+                <div><strong>Taxis:</strong> ${taxisHtml}</div>
             </div>
         `;
     }
@@ -91,6 +112,12 @@ document.addEventListener('DOMContentLoaded', function() {
             <p><strong>Wins:</strong> ${team.wins ?? '-'} | <strong>Losses:</strong> ${team.losses ?? '-'} | <strong>Ties:</strong> ${team.ties ?? '-'}</p>
             <h3>Starters</h3>
             ${team.starters && team.starters.length > 0 ? `<ul>${team.starters.map(p => `<li>${p.firstName || ''} ${p.lastName || ''} (${(p.positions||[]).join(', ')})</li>`).join('')}</ul>` : '<p>No starters found.</p>'}
+            <h3>Bench</h3>
+            ${team.bench && team.bench.length > 0 ? `<ul>${team.bench.map(p => `<li>${p.firstName || ''} ${p.lastName || ''} (${(p.positions||[]).join(', ')})</li>`).join('')}</ul>` : '<p>No bench players found.</p>'}
+            <h3>Reserves</h3>
+            ${team.reserves && team.reserves.length > 0 ? `<ul>${team.reserves.map(p => `<li>${p.firstName || ''} ${p.lastName || ''} (${(p.positions||[]).join(', ')})</li>`).join('')}</ul>` : '<p>No reserves found.</p>'}
+            <h3>Taxis</h3>
+            ${team.taxis && team.taxis.length > 0 ? `<ul>${team.taxis.map(p => `<li>${p.firstName || ''} ${p.lastName || ''} (${(p.positions||[]).join(', ')})</li>`).join('')}</ul>` : '<p>No taxi players found.</p>'}
         `;
         showModal();
     }
