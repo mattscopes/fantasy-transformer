@@ -1,6 +1,6 @@
 # Fantasy Transformer
 
-Transforms fantasy sports APIs into unambiguous, viewable data.
+Transforms fantasy sports APIs (currently just with Sleeper API) into unambiguous, viewable data.
 
 ## Features
 
