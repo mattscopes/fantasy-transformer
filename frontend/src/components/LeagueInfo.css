@@ -1,0 +1,40 @@
+.league-info {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  color: white;
+}
+
+.league-info-content {
+  text-align: center;
+}
+
+.league-name {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.league-season {
+  margin: 0.5rem 0 0;
+  font-size: 1.2rem;
+  opacity: 0.95;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .league-info {
+    padding: 1.5rem;
+  }
+
+  .league-name {
+    font-size: 1.5rem;
+  }
+
+  .league-season {
+    font-size: 1rem;
+  }
+}

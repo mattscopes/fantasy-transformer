@@ -1,0 +1,142 @@
+.team-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+  border-color: #667eea;
+}
+
+.team-header {
+  border-bottom: 2px solid #f7fafc;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.team-name {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.team-record {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.record-item {
+  font-size: 1rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.record-label {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.team-section {
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #667eea;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.player-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  background: #f7fafc;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.player-item:hover {
+  background: #edf2f7;
+  transform: translateX(4px);
+}
+
+.player-name {
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.player-position {
+  font-size: 0.875rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+.player-more {
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  color: #667eea;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.no-players {
+  color: #a0aec0;
+  font-style: italic;
+  margin: 0;
+  padding: 0.5rem 0;
+}
+
+.team-footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid #f7fafc;
+}
+
+.view-details-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.view-details-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+@media (max-width: 768px) {
+  .team-card {
+    padding: 1.25rem;
+  }
+
+  .team-name {
+    font-size: 1.25rem;
+  }
+
+  .team-record {
+    gap: 1rem;
+  }
+}
