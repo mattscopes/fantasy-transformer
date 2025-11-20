@@ -20,11 +20,10 @@ public class DashboardController {
         return dashboardService.serveLeague("nfl", leagueId);
     }
 
-    @GetMapping("/players")
-    public List<Player> getPlayers(@PathVariable Boolean getInactivePlayers) throws IOException, InterruptedException {
-        return dashboardService.servePlayers("nfl", getInactivePlayers);
-    }
-
+//    @GetMapping("/players")
+//    public List<Player> getPlayers(@PathVariable Boolean getInactivePlayers) throws IOException, InterruptedException {
+//        return dashboardService.servePlayers("nfl", getInactivePlayers);
+//    }
 
     @GetMapping("/players")
     public List<Player> getPlayers() throws IOException, InterruptedException {

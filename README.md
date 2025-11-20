@@ -37,7 +37,7 @@ Build and run the application:
 
 ### Run Frontend
 npm install
-npm run dev
+npm run dev (just to run in dev enviorment)
 
 ## Usage
 
