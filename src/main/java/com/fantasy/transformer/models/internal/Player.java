@@ -8,7 +8,6 @@ public class Player {
     private String lastName;
     private List<String> positions;
     private String team;
-    private Integer number;
 
     public String getFirstName() {
         return firstName;
@@ -42,13 +41,6 @@ public class Player {
         this.team = team;
     }
 
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
 
     @Override
     public String toString() {
@@ -57,7 +49,6 @@ public class Player {
             ", lastName='" + lastName + '\'' +
             ", positions=" + positions +
             ", team='" + team + '\'' +
-            ", number=" + number +
             '}';
     }
 }

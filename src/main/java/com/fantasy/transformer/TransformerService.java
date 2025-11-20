@@ -33,7 +33,16 @@ public class TransformerService {
         return parseLeague(sleeperLeague, sleeperUsers, sleeperRosters, sleeperPlayers);
     }
 
-    public League parseLeague(SleeperLeague sleeperLeague,
+    public List<Player> servePlayers(String sport,
+                                     Boolean getInactivePlayers) throws IOException, InterruptedException {
+
+        Map<String, SleeperPlayer> sleeperPlayers = Optional.ofNullable(sleeperClient.getPlayers(sport))
+            .orElse(Collections.emptyMap());
+
+        return parseAllPlayers(sleeperPlayers, getInactivePlayers);
+    }
+
+    private League parseLeague(SleeperLeague sleeperLeague,
                               List<SleeperUser> sleeperUsers,
                               List<SleeperRoster> sleeperRosters,
                               Map<String, SleeperPlayer> sleeperPlayers) throws IOException, InterruptedException {
@@ -91,13 +100,13 @@ public class TransformerService {
             .map(SleeperRosterSettings::getTies)
             .ifPresent(team::setTies);
         Optional.ofNullable(sleeperRoster.getStarters())
-            .map(v -> parsePlayers(sleeperPlayers, v))
+            .map(v -> parseCertainPlayers(sleeperPlayers, v))
             .ifPresent(team::setStarters);
         Optional.ofNullable(sleeperRoster.getReserve())
-            .map(v -> parsePlayers(sleeperPlayers, v))
+            .map(v -> parseCertainPlayers(sleeperPlayers, v))
             .ifPresent(team::setReserves);
         Optional.ofNullable(sleeperRoster.getTaxi())
-            .map(v -> parsePlayers(sleeperPlayers, v))
+            .map(v -> parseCertainPlayers(sleeperPlayers, v))
             .ifPresent(team::setTaxis);
         Optional.ofNullable(parseBenchPlayers(sleeperPlayers, sleeperRoster))
             .ifPresent(team::setBench);
@@ -123,7 +132,7 @@ public class TransformerService {
         List<String> benchIds = allPlayerIds.stream()
             .filter(id -> !excludeIds.contains(id))
             .collect(Collectors.toList());
-        List<Player> benchPlayers = parsePlayers(sleeperPlayers, benchIds);
+        List<Player> benchPlayers = parseCertainPlayers(sleeperPlayers, benchIds);
 
         return (benchPlayers == null || benchPlayers.isEmpty()) ? null : benchPlayers;
     }
@@ -156,15 +165,32 @@ public class TransformerService {
         return teamName.get();
     }
 
-    private List<Player> parsePlayers(Map<String, SleeperPlayer> sleeperPlayers,
-                                      List<String> SleeperPlayerIds) {
+    private List<Player> parseCertainPlayers(Map<String, SleeperPlayer> sleeperPlayers,
+                                             List<String> SleeperPlayerIds) {
 
         List<Player> players = Optional.ofNullable(SleeperPlayerIds)
             .orElse(Collections.emptyList())
             .stream()
             .map(sleeperPlayers::get)
             .filter(Objects::nonNull)
-            .map(sleeperPlayer -> parsePlayer(sleeperPlayers, sleeperPlayer.getPlayerId()))
+            .map(sp -> parsePlayer(sleeperPlayers, sp.getPlayerId()))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+
+        return players.isEmpty() ? null : players;
+    }
+
+    private List<Player> parseAllPlayers(Map<String, SleeperPlayer> sleeperPlayers,
+                                         Boolean getInactivePlayers) {
+
+        List<Player> players = Optional.ofNullable(sleeperPlayers)
+            .orElse(Collections.emptyMap())
+            .values()
+            .stream()
+            .filter(Objects::nonNull)
+            .filter(sp -> getInactivePlayers || Boolean.TRUE.equals(sp.getActive()))
+            .map(sp -> parsePlayer(sleeperPlayers, sp.getPlayerId()))
+            .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
         return players.isEmpty() ? null : players;
@@ -184,8 +210,6 @@ public class TransformerService {
                     .ifPresent(player::setPositions);
                 Optional.ofNullable(sp.getTeam())
                     .ifPresent(player::setTeam);
-                Optional.ofNullable(sp.getNumber())
-                    .ifPresent(player::setNumber);
                 return player;
             })
             .orElse(null);

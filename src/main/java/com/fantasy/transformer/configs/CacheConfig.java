@@ -1,4 +1,4 @@
-package com.fantasy.transformer;
+package com.fantasy.transformer.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
