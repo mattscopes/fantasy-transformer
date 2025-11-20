@@ -1,21 +1,29 @@
-# Fantasy Transformer
+# Fantasy Sports Dashboard
 
-Transforms fantasy sports APIs into unambiguous, viewable data.
+Transforms fantasy sports APIs (currently only sleeper API) into an all-in-one, easy-to-use dashboard.
 
 ## Features
 
-- Integrates with Sleeper fantasy sports API
-- Caches API responses for performance
-- RESTful endpoints for league, player, roster, and user data
-- Modular Spring Boot architecture
+- `backend/` \- Java 21 / Spring Boot / Maven service that:
+    - Calls the Sleeper API via `SleeperClient`.
+    - Transforms Sleeper models into internal models in `TransformerService`.
+    - Exposes a REST API (via `TransformerController`) to serve league data.
+- `frontend/` \- React + Vite that:
+    - Lets users search for leagues.
+    - Displays league info, teams, and players.
+    - Uses components in `src/components/` (e.g. `LeagueSearch`, `LeagueInfo`, `TeamCard`, `Modal`, `Header`, `Footer`).
 
 ## Getting Started
 
 ### Prerequisites
 
-- Java 21+
+Backend requirements:
+- Java 17+
 - Maven 3.8+
-- Git
+
+Frontend requirements:
+- Node.js 18+
+- npm 11+
 
 ### Setup
 
@@ -23,19 +31,31 @@ Clone the repository:
 git clone git@github.com:mattscopes/sleeper-transform.git
 cd fantasy-transformer
 
+### Run Backend
 Build and run the application:
 ./mvnw spring-boot:run
 
-The app will start on [http://localhost:8080](http://localhost:8080).
+### Run Frontend
+npm install
+npm run dev
 
 ## Usage
 
-Open `http://localhost:8080` in your browser to view the UI.
+Open `http://localhost:5173` in your browser to view the UI.
 
-API endpoints are available under `/api/` (see `TransformerController.java` for details).
+API endpoints are available under `http://localhost:8080/api/` (see `TransformerController.java` for details).
 
 ## Testing
 
-Run all tests:
+Run all backend tests:
 
 ./mvnw test
+
+## Future Improvements
+
+- Containerize the application using Docker, and enable the ability to pass in one or multiple league IDs as environment variables.
+- Implement league matchups, playoff picks, and draftable players views.
+- Add more detailed player statistics (potentially web-scraping ESPN).
+- Feed player statistics in AI model for trade suggestions.
+- Enhance UI/UX with more features and better design.
+- Add support for more fantasy sports APIs.
