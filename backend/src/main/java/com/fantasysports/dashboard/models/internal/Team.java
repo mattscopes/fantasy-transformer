@@ -84,9 +84,9 @@ public class Team {
             ", losses=" + losses +
             ", ties=" + ties +
             ", starters=" + starters +
-            ", bench=" + bench +
             ", reserves=" + reserves +
             ", taxis=" + taxis +
+            ", bench=" + bench +
             '}';
     }
 }

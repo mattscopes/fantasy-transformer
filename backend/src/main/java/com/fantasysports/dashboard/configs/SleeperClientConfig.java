@@ -1,5 +1,6 @@
-package com.fantasysports.dashboard;
+package com.fantasysports.dashboard.configs;
 
+import com.fantasysports.dashboard.SleeperClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.net.http.HttpClient;

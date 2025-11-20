@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:backend/src/main/java/com/fantasysports/dashboard/CacheConfig.java
 package com.fantasysports.dashboard;
+========
+package com.fantasy.transformer.configs;
+>>>>>>>> d9ac6469b24e61475a39ec7d714d2fc3257e2f8e:src/main/java/com/fantasy/transformer/configs/CacheConfig.java
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fantasy League Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#3498db">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a href="https://www.example.com" target="_blank" rel="noopener">Random Link</a>
+    <header class="header">
+        <h1>Fantasy League Viewer</h1>
+    </header>
+    <div class="container">
+        <form id="leagueForm" class="section" aria-label="League Search">
+            <label for="leagueId">League ID:</label>
+            <input type="text" id="leagueId" placeholder="Enter League ID" required aria-required="true">
+            <button type="submit">Load League</button>
+        </form>
+        <div id="loadingSection" class="loading" style="display:none;"></div>
+        <div id="errorSection" class="error" style="display:none;"></div>
+        <div id="leagueSection" class="section"></div>
+        <div id="teamsSection" class="section"></div>
+        <div id="legendSection" class="section">
+            <h3>Legend</h3>
+            <ul style="list-style: none; padding-left: 0;">
+                <li><strong>Starters</strong>: Players in your starting lineup.</li>
+                <li><strong>Bench</strong>: Players on your roster not in the starting lineup, reserves, or taxi squad.</li>
+                <li><strong>Reserves</strong>: Players designated as reserves (e.g., IR, out).</li>
+                <li><strong>Taxis</strong>: Players on your taxi squad (rookies, prospects, etc.).</li>
+            </ul>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2025 Fantasy Transformer</p>
+    </footer>
+    <div id="modal" class="modal" style="display:none;">
+        <div class="modal-content" role="dialog" aria-modal="true">
+            <span id="closeModal" class="close" tabindex="0" aria-label="Close">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    <script src="league.js"></script>
+</body>
+</html>
