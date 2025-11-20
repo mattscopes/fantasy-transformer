@@ -16,8 +16,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SleeperClientTests {
 
@@ -52,10 +51,10 @@ public class SleeperClientTests {
         assertEquals(3, sleeperUsers.size());
         assertEquals("34576657345345657", sleeperUsers.get(0).getUserId());
         assertEquals("ham123", sleeperUsers.get(0).getDisplayName());
-        assertEquals(null, sleeperUsers.get(0).getMetadata().getTeamName());
         assertEquals("5324532464574566", sleeperUsers.get(1).getUserId());
         assertEquals("fake123", sleeperUsers.get(1).getDisplayName());
         assertEquals("C.S. Disguise & Vacuum", sleeperUsers.get(1).getMetadata().getTeamName());
+        assertNull(sleeperUsers.get(0).getMetadata().getTeamName());
     }
     
     @Test

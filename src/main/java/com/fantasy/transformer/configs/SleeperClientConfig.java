@@ -1,5 +1,6 @@
-package com.fantasy.transformer;
+package com.fantasy.transformer.configs;
 
+import com.fantasy.transformer.SleeperClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.net.http.HttpClient;
