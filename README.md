@@ -38,39 +38,50 @@ cd fantasy-sports-dashboard
 Navigate to `/backend` directory
 
 Build and run the application:
-`./mvnw spring-boot:run`
+./mvnw spring-boot:run
 
 #### Run Frontend
 
 Navigate to `/frontend` directory
 
-`npm install`
-`npm run dev`
+npm install
+npm run dev
 
-### Run App (With Docker)
+[//]: # (### Run App &#40;With Docker&#41;)
 
-#### Create Network
+[//]: # ()
+[//]: # (#### Create Network)
 
-`docker network create fantasy-sports-dashboard-network'`
+[//]: # ()
+[//]: # (`docker network create fantasy-sports-dashboard-network'`)
 
-#### Run Backend
+[//]: # ()
+[//]: # (#### Run Backend)
 
-Navigate to `/backend` directory
+[//]: # ()
+[//]: # (Navigate to `/backend` directory)
 
-`mvn clean install`
-`docker build -t backend .`
+[//]: # ()
+[//]: # (`mvn clean install`)
 
-[//]: # (`docker run -p 8080:8080 backend`)
-`docker run --name backend-app --network fantasy-sports-dashboard-network -p 8080:8080 -d backend`
+[//]: # (`docker build -t backend .`)
 
-#### Run Frontend
+[//]: # ()
+[//]: # ([//]: # &#40;`docker run -p 8080:8080 backend`&#41;)
+[//]: # (`docker run --name backend-app --network fantasy-sports-dashboard-network -p 8080:8080 -d backend`)
 
-Navigate to `/frontend` directory
+[//]: # ()
+[//]: # (#### Run Frontend)
 
-`docker build -t frontend .`
+[//]: # ()
+[//]: # (Navigate to `/frontend` directory)
 
-[//]: # (`docker run -p 5173:5173 frontend`)
-`docker run --name frontend-app --network fantasy-sports-dashboard-network -p 5173:5173 -d frontend`
+[//]: # ()
+[//]: # (`docker build -t frontend .`)
+
+[//]: # ()
+[//]: # ([//]: # &#40;`docker run -p 5173:5173 frontend`&#41;)
+[//]: # (`docker run --name frontend-app --network fantasy-sports-dashboard-network -p 5173:5173 -d frontend`)
 
 ## Usage
 
